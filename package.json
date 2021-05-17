@@ -12,6 +12,11 @@
       "git add"
     ]
   },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/rodolfoip/atrios_backend.git"
@@ -23,6 +28,7 @@
   },
   "homepage": "https://github.com/rodolfoip/atrios_backend#readme",
   "devDependencies": {
+    "husky": "^6.0.0",
     "lint-staged": "^11.0.0",
     "standard": "^16.0.3"
   }
