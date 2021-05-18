@@ -18,7 +18,8 @@
   "lint-staged": {
     "*.js": [
       "npx standard --fix",
-      "git add"
+      "git add",
+      "npm run test:staged"
     ]
   },
   "husky": {
