@@ -5,12 +5,15 @@
   "main": "index.js",
   "scripts": {
     "prepare": "husky install",
+    "precommit": "lint-staged",
     "test": "jest",
     "test:staged": "jest",
     "test:watch": "jest --watch"
   },
   "standard": {
-    "env": ["jest"]
+    "env": [
+      "jest"
+    ]
   },
   "lint-staged": {
     "*.js": [
@@ -20,7 +23,7 @@
   },
   "husky": {
     "hooks": {
-      "pre-commit": "lint-staged"
+      "pre-commit": "precommit"
     }
   },
   "repository": {
