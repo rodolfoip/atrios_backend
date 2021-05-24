@@ -169,7 +169,6 @@ describe('Login router', () => {
 
   test('should return 500 if no AuthUseCase throws error', async () => {
     const authUseCaseSpy = makeAuthUseCaseWithError()
-    authUseCaseSpy.accessToken = 'valid_token'
     const sut = new LoginRouter(authUseCaseSpy)
     const httpRequest = {
       body: {
