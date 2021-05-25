@@ -7,8 +7,8 @@
     "prepare": "husky install",
     "precommit": "lint-staged",
     "test": "jest",
-    "test:staged": "jest",
-    "test:watch": "jest --watchAll"
+    "test:staged": "jest --findRelatedTests --silent --noStackTrace",
+    "test:watch": "jest --watch --silent --colors --noStackTrace"
   },
   "standard": {
     "env": [
