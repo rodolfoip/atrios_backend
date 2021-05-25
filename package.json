@@ -6,10 +6,10 @@
   "scripts": {
     "prepare": "husky install",
     "precommit": "lint-staged",
-    "test": "jest",
-    "test:staged": "jest --findRelatedTests --silent --noStackTrace",
-    "test:watch": "jest --watch --silent --colors --noStackTrace",
-    "test:ci": "jest --coverage --noStackTrace --silent"
+    "test": "jest --silent --noStackTrace --colors",
+    "test:staged": "npm test -- --findRelatedTests",
+    "test:watch": "npm test -- --watch",
+    "test:ci": "npm test -- --coverage"
   },
   "standard": {
     "env": [
