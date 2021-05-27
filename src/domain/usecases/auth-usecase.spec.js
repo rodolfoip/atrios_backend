@@ -51,13 +51,13 @@ describe('Auth UseCase', () => {
     expect(loadUserByEmailRepositorySpy.email).toBe('any_email@mail.com')
   })
 
-  it('should call if no LoadUserByEmailRepository is provided', () => {
+  it('should throw if LoadUserByEmailRepository is provided', () => {
     const sut = new AuthUseCase()
     const promise = sut.auth('any_email@mail.com', 'any_password')
     expect(promise).rejects.toThrow(new MissingParamError('loadUserByEmailRepository'))
   })
 
-  it('should call if LoadUserByEmailRepository has no load method', () => {
+  it('should throw if LoadUserByEmailRepository has no load method', () => {
     const sut = new AuthUseCase({})
     const promise = sut.auth('any_email@mail.com', 'any_password')
     expect(promise).rejects.toThrow(new InvalidParamError('loadUserByEmailRepository'))
