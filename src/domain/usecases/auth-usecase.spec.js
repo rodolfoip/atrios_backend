@@ -96,14 +96,14 @@ describe('Auth UseCase', () => {
 
   it('should call Encrypter with correct values', async () => {
     const { sut, loadUserByEmailRepositorySpy, encrypterSpy } = makeSut()
-    await sut.auth('valid_email@mail.com', 'any_password', '')
+    await sut.auth('valid_email@mail.com', 'any_password')
     expect(encrypterSpy.password).toBe('any_password')
     expect(encrypterSpy.hashedPassword).toBe(loadUserByEmailRepositorySpy.user.password)
   })
 
   it('should call TokenGenerator with correct userId', async () => {
     const { sut, loadUserByEmailRepositorySpy, tokenGeneratorSpy } = makeSut()
-    await sut.auth('valid_email@mail.com', 'valid_password', '')
+    await sut.auth('valid_email@mail.com', 'valid_password')
     expect(tokenGeneratorSpy.userID).toBe(loadUserByEmailRepositorySpy.user.id)
   })
 
