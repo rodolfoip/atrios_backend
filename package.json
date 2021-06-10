@@ -6,11 +6,11 @@
   "scripts": {
     "prepare": "husky install",
     "precommit": "lint-staged",
-    "test": "jest --silent --noStackTrace --colors",
-    "test:staged": "npm test -- --findRelatedTests",
+    "test": "jest --noStackTrace --colors",
+    "test:staged": "npm test -- --findRelatedTests --silent",
     "test:unit": "npm test -- --watch -c jest-unit-config.js",
     "test:integration": "npm test -- --watch -c jest-integration-config.js",
-    "test:ci": "npm test -- --coverage"
+    "test:ci": "npm test -- --coverage --silent"
   },
   "standard": {
     "env": [
