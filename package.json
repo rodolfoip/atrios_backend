@@ -2,8 +2,9 @@
   "name": "atrios_backend",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "src/main/index.js",
   "scripts": {
+    "start": "node src/main/index.js",
     "prepare": "husky install",
     "precommit": "lint-staged",
     "test": "jest --noStackTrace --forceExit --detectOpenHandles --colors",
@@ -57,6 +58,7 @@
   },
   "dependencies": {
     "bcrypt": "^5.0.1",
+    "express": "^4.17.1",
     "jsonwebtoken": "^8.5.1",
     "mongodb": "^3.6.9",
     "validator": "^13.6.0"
