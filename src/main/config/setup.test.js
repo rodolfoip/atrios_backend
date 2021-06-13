@@ -1,4 +1,4 @@
-const requrest = require('supertest')
+const request = require('supertest')
 const app = require('./app')
 
 describe('App setup', () => {
@@ -7,7 +7,7 @@ describe('App setup', () => {
       res.send('')
     })
 
-    const res = await requrest(app).get('/test_x_powered_by')
+    const res = await request(app).get('/test_x_powered_by')
     expect(res.headers['x-powered-by']).toBeUndefined()
   })
 })
