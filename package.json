@@ -7,7 +7,7 @@
     "start": "node src/main/index.js",
     "prepare": "husky install",
     "precommit": "lint-staged",
-    "test": "jest --noStackTrace --forceExit --detectOpenHandles --colors",
+    "test": "jest --noStackTrace --forceExit --detectOpenHandles --runInBand --colors",
     "test:staged": "npm test -- --findRelatedTests --silent",
     "test:unit": "npm test -- --watch -c jest-unit-config.js",
     "test:integration": "npm test -- --watch -c jest-integration-config.js",
