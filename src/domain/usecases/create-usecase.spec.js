@@ -1,18 +1,5 @@
 const { MissingParamError } = require('../../utils/errors')
-
-class CreateUseCase {
-  async create ({ name, email, password }) {
-    if (!name) {
-      throw new MissingParamError('name')
-    }
-    if (!email) {
-      throw new MissingParamError('email')
-    }
-    if (!password) {
-      throw new MissingParamError('password')
-    }
-  }
-}
+const CreateUseCase = require('./create-usecase')
 
 const makeSut = () => {
   return new CreateUseCase()
