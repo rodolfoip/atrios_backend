@@ -1,31 +1,36 @@
 const { MissingParamError } = require('../../utils/errors')
 const { ServerError } = require('../errors')
-const HttpResponse = require('../helpers/http-response')
-
-class CreateUserRoute {
-  route (httpRequest) {
-    try {
-      const { name, email, password } = httpRequest.body
-      if (!name) {
-        return HttpResponse.badRequest(new MissingParamError('name'))
-      }
-      if (!email) {
-        return HttpResponse.badRequest(new MissingParamError('email'))
-      }
-      if (!password) {
-        return HttpResponse.badRequest(new MissingParamError('password'))
-      }
-    } catch (error) {
-      return HttpResponse.serverError()
-    }
-  }
-}
+const CreateUserRoute = require('./create-user-router')
 
 const makeSut = () => {
-  const sut = new CreateUserRoute()
+  const createUseCaseSpy = makeCreateUseCase()
+  const sut = new CreateUserRoute({
+    createUseCase: createUseCaseSpy
+  })
 
-  return { sut }
+  return { sut, createUseCaseSpy }
 }
+
+const makeCreateUseCase = () => {
+  class CreateUseCaseSpy {
+    async create ({ name, email, password }) {
+      this.name = name
+      this.email = email
+      this.password = password
+      return this.user
+    }
+  }
+
+  const createUseCaseSpy = new CreateUseCaseSpy()
+  createUseCaseSpy.user = {
+    name: 'any_name',
+    email: 'any_email@test.com',
+    password: 'any_password'
+  }
+
+  return createUseCaseSpy
+}
+
 describe('CreateUser router', () => {
   test('should return 400 if no name is provided', async () => {
     const { sut } = makeSut()
@@ -78,5 +83,20 @@ describe('CreateUser router', () => {
     const httpResponse = await sut.route({})
     expect(httpResponse.statusCode).toBe(500)
     expect(httpResponse.body.error).toBe(new ServerError().message)
+  })
+
+  test('should call CreateUseCase with correct params', async () => {
+    const { sut, createUseCaseSpy } = makeSut()
+    const httpRequest = {
+      body: {
+        name: 'any_name',
+        email: 'any_email@test.com',
+        password: 'any_password'
+      }
+    }
+    await sut.route(httpRequest)
+    expect(createUseCaseSpy.user.name).toBe(httpRequest.body.name)
+    expect(createUseCaseSpy.user.email).toBe(httpRequest.body.email)
+    expect(createUseCaseSpy.user.password).toBe(httpRequest.body.password)
   })
 })
