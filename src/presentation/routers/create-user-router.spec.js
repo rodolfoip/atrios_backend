@@ -37,6 +37,15 @@ const makeCreateUseCase = () => {
   return createUseCaseSpy
 }
 
+const makeCreateUseCaseWithError = () => {
+  class CreateUseCaseSpy {
+    async create () {
+      throw new Error()
+    }
+  }
+  return new CreateUseCaseSpy()
+}
+
 const makeEmailValidator = () => {
   class EmailValidatorSpy {
     isValid (email) {
@@ -47,6 +56,15 @@ const makeEmailValidator = () => {
   const emailValidatorSpy = new EmailValidatorSpy()
   emailValidatorSpy.isEmailValid = true
   return emailValidatorSpy
+}
+
+const makeEmailValidatorWithError = () => {
+  class EmailValidatorSpy {
+    isValid () {
+      throw new Error()
+    }
+  }
+  return new EmailValidatorSpy()
 }
 
 describe('CreateUser router', () => {
@@ -173,6 +191,31 @@ describe('CreateUser router', () => {
       new CreateUserRoute({
         createUseCase,
         emailValidator: invalid
+      })
+    )
+    for (const sut of suts) {
+      const httpRequest = {
+        body: {
+          name: 'any_name',
+          email: 'any_email@teste.com',
+          password: 'any_password'
+        }
+      }
+      const httpResponse = await sut.route(httpRequest)
+      expect(httpResponse.statusCode).toBe(500)
+      expect(httpResponse.body.error).toBe(new ServerError().message)
+    }
+  })
+
+  test('should throw if dependency throws', async () => {
+    const createUseCase = makeCreateUseCase()
+    const suts = [].concat(
+      new CreateUserRoute({
+        createUseCase: makeCreateUseCaseWithError()
+      }),
+      new CreateUserRoute({
+        createUseCase: createUseCase,
+        emailValidator: makeEmailValidatorWithError()
       })
     )
     for (const sut of suts) {
