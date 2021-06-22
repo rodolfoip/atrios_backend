@@ -21,7 +21,7 @@ module.exports = class CreateUserRoute {
 
       const user = await this.createUseCase.create({ name, email, password })
 
-      return HttpResponse.ok(user)
+      return HttpResponse.created({ user })
     } catch (error) {
       return HttpResponse.serverError()
     }

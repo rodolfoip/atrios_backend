@@ -99,4 +99,18 @@ describe('CreateUser router', () => {
     expect(createUseCaseSpy.user.email).toBe(httpRequest.body.email)
     expect(createUseCaseSpy.user.password).toBe(httpRequest.body.password)
   })
+
+  test('should return 201 when valid credentials are provided', async () => {
+    const { sut, createUseCaseSpy } = makeSut()
+    const httpRequest = {
+      body: {
+        name: 'any_name',
+        email: 'any_email@test.com',
+        password: 'any_password'
+      }
+    }
+    const httpResponse = await sut.route(httpRequest)
+    expect(httpResponse.statusCode).toBe(201)
+    expect(httpResponse.body.user).toEqual(createUseCaseSpy.user)
+  })
 })
