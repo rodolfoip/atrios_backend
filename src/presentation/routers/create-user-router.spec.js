@@ -1,14 +1,20 @@
-const { MissingParamError } = require('../../utils/errors')
+const { MissingParamError, InvalidParamError } = require('../../utils/errors')
 const { ServerError } = require('../errors')
 const CreateUserRoute = require('./create-user-router')
 
 const makeSut = () => {
   const createUseCaseSpy = makeCreateUseCase()
+  const emailValidatorSpy = makeEmailValidator()
   const sut = new CreateUserRoute({
-    createUseCase: createUseCaseSpy
+    createUseCase: createUseCaseSpy,
+    emailValidator: emailValidatorSpy
   })
 
-  return { sut, createUseCaseSpy }
+  return {
+    sut,
+    createUseCaseSpy,
+    emailValidatorSpy
+  }
 }
 
 const makeCreateUseCase = () => {
@@ -29,6 +35,18 @@ const makeCreateUseCase = () => {
   }
 
   return createUseCaseSpy
+}
+
+const makeEmailValidator = () => {
+  class EmailValidatorSpy {
+    isValid (email) {
+      this.email = email
+      return this.isEmailValid
+    }
+  }
+  const emailValidatorSpy = new EmailValidatorSpy()
+  emailValidatorSpy.isEmailValid = true
+  return emailValidatorSpy
 }
 
 describe('CreateUser router', () => {
@@ -112,5 +130,34 @@ describe('CreateUser router', () => {
     const httpResponse = await sut.route(httpRequest)
     expect(httpResponse.statusCode).toBe(201)
     expect(httpResponse.body.user).toEqual(createUseCaseSpy.user)
+  })
+
+  test('should return 400 if an invalid email is provided', async () => {
+    const { sut, emailValidatorSpy } = makeSut()
+    emailValidatorSpy.isEmailValid = false
+    const httpRequest = {
+      body: {
+        name: 'any_name',
+        email: 'invalid_email@test.com',
+        password: 'any_password'
+      }
+    }
+    const httpResponse = await sut.route(httpRequest)
+    expect(httpResponse.statusCode).toBe(400)
+    expect(httpResponse.body.error).toBe(new InvalidParamError('email').message)
+  })
+
+  test('should call EmailValidator with correct email', async () => {
+    const { sut, emailValidatorSpy } = makeSut()
+
+    const httpRequest = {
+      body: {
+        name: 'any_name',
+        email: 'valid@teste.com',
+        password: 'any_password'
+      }
+    }
+    await sut.route(httpRequest)
+    expect(emailValidatorSpy.email).toBe(httpRequest.body.email)
   })
 })
