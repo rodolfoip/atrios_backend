@@ -160,4 +160,32 @@ describe('CreateUser router', () => {
     await sut.route(httpRequest)
     expect(emailValidatorSpy.email).toBe(httpRequest.body.email)
   })
+
+  test('should throw if invalid dependencies are provided', async () => {
+    const invalid = {}
+    const createUseCase = makeCreateUseCase()
+    const suts = [].concat(
+      new CreateUserRoute(),
+      new CreateUserRoute({}),
+      new CreateUserRoute({
+        createUseCase: invalid
+      }),
+      new CreateUserRoute({
+        createUseCase,
+        emailValidator: invalid
+      })
+    )
+    for (const sut of suts) {
+      const httpRequest = {
+        body: {
+          name: 'any_name',
+          email: 'any_email@teste.com',
+          password: 'any_password'
+        }
+      }
+      const httpResponse = await sut.route(httpRequest)
+      expect(httpResponse.statusCode).toBe(500)
+      expect(httpResponse.body.error).toBe(new ServerError().message)
+    }
+  })
 })
