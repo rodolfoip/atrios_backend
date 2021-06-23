@@ -13,13 +13,37 @@ const makeLoadUserByEmailRepository = () => {
   return loadUserByEmailRepositorySpy
 }
 
+const makeUserRepositorySpy = () => {
+  class UserRepositorySpy {
+    async persist ({ name, email, password }) {
+      this.name = name
+      this.email = email
+      this.password = password
+
+      return this.user
+    }
+  }
+  const userRepositorySpy = new UserRepositorySpy()
+  userRepositorySpy.user = {
+    name: 'any_user',
+    email: 'any_email@test.com',
+    password: 'hashed_password'
+  }
+  return userRepositorySpy
+}
+
 const makeSut = () => {
   const loadUserByEmailRepositorySpy = makeLoadUserByEmailRepository()
-  const sut = new CreateUseCase(loadUserByEmailRepositorySpy)
+  const userRepositorySpy = makeUserRepositorySpy()
+  const sut = new CreateUseCase({
+    loadUserByEmailRepository: loadUserByEmailRepositorySpy,
+    userRepository: userRepositorySpy
+  })
 
   return {
     sut,
-    loadUserByEmailRepositorySpy
+    loadUserByEmailRepositorySpy,
+    userRepositorySpy
   }
 }
 
@@ -59,5 +83,16 @@ describe('Create Usecase', () => {
     }
     const promise = sut.create(fakeUser)
     expect(promise).rejects.toThrow(new Error('User already exists'))
+  })
+
+  test('should return user when call create', async () => {
+    const { sut, userRepositorySpy } = makeSut()
+    const fakeUser = {
+      name: 'any_user',
+      email: 'any_email@test.com',
+      password: 'hashed_password'
+    }
+    await sut.create(fakeUser)
+    expect(userRepositorySpy.user).toEqual(fakeUser)
   })
 })
