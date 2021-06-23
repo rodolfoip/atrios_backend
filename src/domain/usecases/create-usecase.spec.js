@@ -95,4 +95,29 @@ describe('Create Usecase', () => {
     await sut.create(fakeUser)
     expect(userRepositorySpy.user).toEqual(fakeUser)
   })
+
+  test('should throw if invalid dependencies are provided', async () => {
+    const invalid = {}
+    const loadUserByEmailRepository = makeLoadUserByEmailRepository()
+    const suts = [].concat(
+      new CreateUseCase(),
+      new CreateUseCase({}),
+      new CreateUseCase({
+        loadUserByEmailRepository: invalid
+      }),
+      new CreateUseCase({
+        loadUserByEmailRepository,
+        userRepository: invalid
+      })
+    )
+    for (const sut of suts) {
+      const fakeUser = {
+        name: 'any_user',
+        email: 'any_email@test.com',
+        password: 'hashed_password'
+      }
+      const promise = sut.create(fakeUser)
+      expect(promise).rejects.toThrow()
+    }
+  })
 })
