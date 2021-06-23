@@ -13,7 +13,16 @@ const makeLoadUserByEmailRepository = () => {
   return loadUserByEmailRepositorySpy
 }
 
-const makeUserRepositorySpy = () => {
+const makeLoadUserByEmailRepositoryWithError = () => {
+  class LoadUserByEmailRepositorySpy {
+    async load () {
+      throw new Error()
+    }
+  }
+  return new LoadUserByEmailRepositorySpy()
+}
+
+const makeUserRepository = () => {
   class UserRepositorySpy {
     async persist ({ name, email, password }) {
       this.name = name
@@ -32,9 +41,24 @@ const makeUserRepositorySpy = () => {
   return userRepositorySpy
 }
 
+const makeUserRepositoryWithError = () => {
+  class UserRepositorySpy {
+    async persist () {
+      throw new Error()
+    }
+  }
+  const userRepositorySpy = new UserRepositorySpy()
+  userRepositorySpy.user = {
+    name: 'any_user',
+    email: 'any_email@test.com',
+    password: 'hashed_password'
+  }
+  return userRepositorySpy
+}
+
 const makeSut = () => {
   const loadUserByEmailRepositorySpy = makeLoadUserByEmailRepository()
-  const userRepositorySpy = makeUserRepositorySpy()
+  const userRepositorySpy = makeUserRepository()
   const sut = new CreateUseCase({
     loadUserByEmailRepository: loadUserByEmailRepositorySpy,
     userRepository: userRepositorySpy
@@ -108,6 +132,30 @@ describe('Create Usecase', () => {
       new CreateUseCase({
         loadUserByEmailRepository,
         userRepository: invalid
+      })
+    )
+    for (const sut of suts) {
+      const fakeUser = {
+        name: 'any_user',
+        email: 'any_email@test.com',
+        password: 'hashed_password'
+      }
+      const promise = sut.create(fakeUser)
+      expect(promise).rejects.toThrow()
+    }
+  })
+
+  test('should throw if invalid dependencies throws', async () => {
+    const loadUserByEmailRepository = makeLoadUserByEmailRepository()
+    const suts = [].concat(
+      new CreateUseCase(),
+      new CreateUseCase({}),
+      new CreateUseCase({
+        loadUserByEmailRepository: makeLoadUserByEmailRepositoryWithError()
+      }),
+      new CreateUseCase({
+        loadUserByEmailRepository,
+        userRepository: makeUserRepositoryWithError()
       })
     )
     for (const sut of suts) {
