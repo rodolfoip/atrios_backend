@@ -1,4 +1,4 @@
-const { MissingParamError } = require('../../utils/errors')
+const { MissingParamError } = require('../../../utils/errors')
 const CreateUseCase = require('./create-usecase')
 
 const makeLoadUserByEmailRepository = () => {

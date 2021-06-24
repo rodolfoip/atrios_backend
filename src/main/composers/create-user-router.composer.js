@@ -1,4 +1,4 @@
-const CreateUseCase = require('../../domain/usecases/create-usecase')
+const { CreateUseCase } = require('../../domain/usecases/user')
 const LoadUserByEmailRepository = require('../../infra/repositories/load-user-by-email-repository')
 const UserRepository = require('../../infra/repositories/user-repository')
 const CreateUserRoute = require('../../presentation/routers/create-user-router')
