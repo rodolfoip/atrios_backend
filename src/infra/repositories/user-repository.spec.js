@@ -1,3 +1,4 @@
+const { MissingParamError } = require('../../utils/errors')
 const MongoHelper = require('../helpers/mongo-helper')
 const UserRepository = require('./user-repository')
 let userModel
@@ -29,5 +30,28 @@ describe('User repository', () => {
     }
     const persistedUser = await sut.persist(fakeUser)
     expect(persistedUser).toMatchObject(fakeUser)
+  })
+
+  test('should throw if no name is provided', async () => {
+    const sut = makeSut()
+    const promise = sut.persist({})
+    expect(promise).rejects.toThrow(new MissingParamError('name'))
+  })
+
+  test('should throw if no email is provided', async () => {
+    const sut = makeSut()
+    const promise = sut.persist({
+      name: 'any_name'
+    })
+    expect(promise).rejects.toThrow(new MissingParamError('email'))
+  })
+
+  test('should throw if no password is provided', async () => {
+    const sut = makeSut()
+    const promise = sut.persist({
+      name: 'any_name',
+      email: 'any_email@test.com'
+    })
+    expect(promise).rejects.toThrow(new MissingParamError('password'))
   })
 })
