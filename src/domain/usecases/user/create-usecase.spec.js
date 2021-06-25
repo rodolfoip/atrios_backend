@@ -56,17 +56,32 @@ const makeUserRepositoryWithError = () => {
   return userRepositorySpy
 }
 
+const makeTokenGenerator = () => {
+  class TokenGeneratorSpy {
+    async generate (email) {
+      this.email = email
+      return this.accessToken
+    }
+  }
+  const tokenGeneratorSpy = new TokenGeneratorSpy()
+  tokenGeneratorSpy.accessToken = 'any_token'
+  return tokenGeneratorSpy
+}
+
 const makeSut = () => {
   const loadUserByEmailRepositorySpy = makeLoadUserByEmailRepository()
+  const tokenGeneratorSpy = makeTokenGenerator()
   const userRepositorySpy = makeUserRepository()
   const sut = new CreateUseCase({
     loadUserByEmailRepository: loadUserByEmailRepositorySpy,
+    tokenGenerator: tokenGeneratorSpy,
     userRepository: userRepositorySpy
   })
 
   return {
     sut,
     loadUserByEmailRepositorySpy,
+    tokenGeneratorSpy,
     userRepositorySpy
   }
 }
