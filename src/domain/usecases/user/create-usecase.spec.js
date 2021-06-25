@@ -1,5 +1,6 @@
 const { MissingParamError } = require('../../../utils/errors')
 const CreateUseCase = require('./create-usecase')
+const bcrypt = require('bcrypt')
 
 const makeLoadUserByEmailRepository = () => {
   class LoadUserByEmailRepositorySpy {
@@ -77,8 +78,8 @@ const makeUserRepositoryWithError = () => {
 
 const makeTokenGenerator = () => {
   class TokenGeneratorSpy {
-    async generate (email) {
-      this.email = email
+    async generate (userId) {
+      this.userId = userId
       return this.accessToken
     }
   }
@@ -87,21 +88,53 @@ const makeTokenGenerator = () => {
   return tokenGeneratorSpy
 }
 
+const makeTokenGeneratorWithError = () => {
+  class TokenGeneratorSpy {
+    async generate () {
+      throw new Error()
+    }
+  }
+  return new TokenGeneratorSpy()
+}
+
+const makeEncrypter = () => {
+  class EncrypterSpy {
+    async encryptedPassword (password, saltOrRounds) {
+      this.password = password
+      this.saltOrRounds = saltOrRounds
+      return this.password
+    }
+  }
+  return new EncrypterSpy()
+}
+
+const makeEncrypterWithError = () => {
+  class EncrypterSpy {
+    async encryptPassword () {
+      throw new Error()
+    }
+  }
+  return new EncrypterSpy()
+}
+
 const makeSut = () => {
   const loadUserByEmailRepositorySpy = makeLoadUserByEmailRepository()
   const updateAccessTokenRepositorySpy = makeUpdateAccessTokenRepository()
   const tokenGeneratorSpy = makeTokenGenerator()
   const userRepositorySpy = makeUserRepository()
+  const encrypterSpy = makeEncrypter()
   const sut = new CreateUseCase({
     loadUserByEmailRepository: loadUserByEmailRepositorySpy,
     updateAccessTokenRepository: updateAccessTokenRepositorySpy,
     tokenGenerator: tokenGeneratorSpy,
+    encrypter: encrypterSpy,
     userRepository: userRepositorySpy
   })
 
   return {
     sut,
     loadUserByEmailRepositorySpy,
+    updateAccessTokenRepositorySpy,
     tokenGeneratorSpy,
     userRepositorySpy
   }
@@ -159,7 +192,9 @@ describe('Create Usecase', () => {
   test('should throw if invalid dependencies are provided', async () => {
     const invalid = {}
     const loadUserByEmailRepository = makeLoadUserByEmailRepository()
-    const userRepository = makeUserRepository()
+    const tokenGenerator = makeTokenGenerator()
+    const updateAccessTokenRepository = makeUpdateAccessTokenRepository()
+    const encrypter = makeEncrypter()
     const suts = [].concat(
       new CreateUseCase(),
       new CreateUseCase({}),
@@ -168,19 +203,32 @@ describe('Create Usecase', () => {
       }),
       new CreateUseCase({
         loadUserByEmailRepository,
-        userRepository: invalid
+        tokenGenerator: invalid
       }),
       new CreateUseCase({
         loadUserByEmailRepository,
-        userRepository,
+        tokenGenerator,
         updateAccessTokenRepository: invalid
+      }),
+      new CreateUseCase({
+        loadUserByEmailRepository,
+        tokenGenerator,
+        updateAccessTokenRepository,
+        encrypter: invalid
+      }),
+      new CreateUseCase({
+        loadUserByEmailRepository,
+        tokenGenerator,
+        updateAccessTokenRepository,
+        encrypter,
+        userRepository: invalid
       })
     )
     for (const sut of suts) {
       const fakeUser = {
         name: 'any_user',
         email: 'any_email@test.com',
-        password: 'hashed_password'
+        password: bcrypt.hashSync('hashed_password', 10)
       }
       const promise = sut.create(fakeUser)
       expect(promise).rejects.toThrow()
@@ -189,7 +237,9 @@ describe('Create Usecase', () => {
 
   test('should throw if invalid dependencies throws', async () => {
     const loadUserByEmailRepository = makeLoadUserByEmailRepository()
-    const userRepository = makeUserRepository()
+    const updateAccessTokenRepository = makeUpdateAccessTokenRepository()
+    const encrypter = makeEncrypter()
+    const tokenGenerator = makeTokenGenerator()
     const suts = [].concat(
       new CreateUseCase(),
       new CreateUseCase({}),
@@ -198,19 +248,32 @@ describe('Create Usecase', () => {
       }),
       new CreateUseCase({
         loadUserByEmailRepository,
-        userRepository: makeUserRepositoryWithError()
+        tokenGenerator: makeTokenGeneratorWithError()
       }),
       new CreateUseCase({
         loadUserByEmailRepository,
-        userRepository,
+        tokenGenerator,
         updateAccessTokenRepository: makeUpdateAccessTokenRepositoryWithError()
+      }),
+      new CreateUseCase({
+        loadUserByEmailRepository,
+        tokenGenerator,
+        updateAccessTokenRepository,
+        encrypter: makeEncrypterWithError()
+      }),
+      new CreateUseCase({
+        loadUserByEmailRepository,
+        tokenGenerator,
+        updateAccessTokenRepository,
+        encrypter,
+        userRepository: makeUserRepositoryWithError()
       })
     )
     for (const sut of suts) {
       const fakeUser = {
         name: 'any_user',
         email: 'any_email@test.com',
-        password: 'hashed_password'
+        password: bcrypt.hashSync('hashed_password', 10)
       }
       const promise = sut.create(fakeUser)
       expect(promise).rejects.toThrow()
