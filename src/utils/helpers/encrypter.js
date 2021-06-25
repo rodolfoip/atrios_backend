@@ -12,4 +12,15 @@ module.exports = class Encrypter {
     }
     return isValid
   }
+
+  async encryptPassword (value, saltOrRounds) {
+    if (!value) {
+      throw new MissingParamError('value')
+    }
+    if (!saltOrRounds) {
+      throw new MissingParamError('saltOrRounds')
+    }
+
+    return bcrypt.hashSync(value, saltOrRounds)
+  }
 }
