@@ -1,10 +1,11 @@
 const { MissingParamError } = require('../../../utils/errors')
 
 module.exports = class CreateUseCase {
-  constructor ({ loadUserByEmailRepository, tokenGenerator, userRepository } = {}) {
+  constructor ({ loadUserByEmailRepository, tokenGenerator, updateAccessTokenRepository, userRepository } = {}) {
     this.loadUserByEmailRepository = loadUserByEmailRepository
     this.tokenGenerator = tokenGenerator
     this.userRepository = userRepository
+    this.updateAccessTokenRepository = updateAccessTokenRepository
   }
 
   async create ({ name, email, password }) {
@@ -24,8 +25,9 @@ module.exports = class CreateUseCase {
       throw new Error('User already exists')
     }
 
-    const accessToken = await this.tokenGenerator.generate(email)
-    const newUser = await this.userRepository.persist({ name, email, password, accessToken })
+    const newUser = await this.userRepository.persist({ name, email, password })
+    const accessToken = await this.tokenGenerator.generate(newUser._id)
+    await this.updateAccessTokenRepository.update(newUser._id, accessToken)
     return newUser
   }
 }

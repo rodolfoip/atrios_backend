@@ -22,6 +22,25 @@ const makeLoadUserByEmailRepositoryWithError = () => {
   return new LoadUserByEmailRepositorySpy()
 }
 
+const makeUpdateAccessTokenRepository = () => {
+  class UpdateAccessTokenRepositorySpy {
+    async update (userId, accessToken) {
+      this.userId = userId
+      this.accessToken = accessToken
+    }
+  }
+  return new UpdateAccessTokenRepositorySpy()
+}
+
+const makeUpdateAccessTokenRepositoryWithError = () => {
+  class UpdateAccessTokenRepositorySpy {
+    async update () {
+      throw new Error()
+    }
+  }
+  return new UpdateAccessTokenRepositorySpy()
+}
+
 const makeUserRepository = () => {
   class UserRepositorySpy {
     async persist ({ name, email, password }) {
@@ -70,10 +89,12 @@ const makeTokenGenerator = () => {
 
 const makeSut = () => {
   const loadUserByEmailRepositorySpy = makeLoadUserByEmailRepository()
+  const updateAccessTokenRepositorySpy = makeUpdateAccessTokenRepository()
   const tokenGeneratorSpy = makeTokenGenerator()
   const userRepositorySpy = makeUserRepository()
   const sut = new CreateUseCase({
     loadUserByEmailRepository: loadUserByEmailRepositorySpy,
+    updateAccessTokenRepository: updateAccessTokenRepositorySpy,
     tokenGenerator: tokenGeneratorSpy,
     userRepository: userRepositorySpy
   })
@@ -138,6 +159,7 @@ describe('Create Usecase', () => {
   test('should throw if invalid dependencies are provided', async () => {
     const invalid = {}
     const loadUserByEmailRepository = makeLoadUserByEmailRepository()
+    const userRepository = makeUserRepository()
     const suts = [].concat(
       new CreateUseCase(),
       new CreateUseCase({}),
@@ -147,6 +169,11 @@ describe('Create Usecase', () => {
       new CreateUseCase({
         loadUserByEmailRepository,
         userRepository: invalid
+      }),
+      new CreateUseCase({
+        loadUserByEmailRepository,
+        userRepository,
+        updateAccessTokenRepository: invalid
       })
     )
     for (const sut of suts) {
@@ -162,6 +189,7 @@ describe('Create Usecase', () => {
 
   test('should throw if invalid dependencies throws', async () => {
     const loadUserByEmailRepository = makeLoadUserByEmailRepository()
+    const userRepository = makeUserRepository()
     const suts = [].concat(
       new CreateUseCase(),
       new CreateUseCase({}),
@@ -171,6 +199,11 @@ describe('Create Usecase', () => {
       new CreateUseCase({
         loadUserByEmailRepository,
         userRepository: makeUserRepositoryWithError()
+      }),
+      new CreateUseCase({
+        loadUserByEmailRepository,
+        userRepository,
+        updateAccessTokenRepository: makeUpdateAccessTokenRepositoryWithError()
       })
     )
     for (const sut of suts) {
