@@ -21,6 +21,6 @@ module.exports = class Encrypter {
       throw new MissingParamError('saltOrRounds')
     }
 
-    return bcrypt.hashSync(value, saltOrRounds)
+    return await bcrypt.hashSync(value, saltOrRounds)
   }
 }
