@@ -26,9 +26,13 @@ module.exports = class CreateUseCase {
       throw new Error('User already exists')
     }
 
-    const encryptedPassword = this.encrypter.encryptedPassword(password, 10)
+    await this.encrypter.encryptPassword(password, 10)
+      .then((result) => {
+        password = result
+      })
 
-    const newUser = await this.userRepository.persist({ name, email, encryptedPassword })
+    const newUser = await this.userRepository.persist({ name, email, password })
+
     const accessToken = await this.tokenGenerator.generate(newUser._id)
     await this.updateAccessTokenRepository.update(newUser._id, accessToken)
     return newUser
