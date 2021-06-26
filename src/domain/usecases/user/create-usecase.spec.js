@@ -99,7 +99,7 @@ const makeTokenGeneratorWithError = () => {
 
 const makeEncrypter = () => {
   class EncrypterSpy {
-    async encryptedPassword (password, saltOrRounds) {
+    async encryptPassword (password, saltOrRounds) {
       this.password = password
       this.saltOrRounds = saltOrRounds
       return this.password
@@ -273,7 +273,7 @@ describe('Create Usecase', () => {
       const fakeUser = {
         name: 'any_user',
         email: 'any_email@test.com',
-        password: bcrypt.hashSync('hashed_password', 10)
+        password: 'hashed_password'
       }
       const promise = sut.create(fakeUser)
       expect(promise).rejects.toThrow()
