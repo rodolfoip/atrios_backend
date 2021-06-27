@@ -2,6 +2,10 @@ const { MissingParamError } = require('../../utils/errors')
 const HttpResponse = require('../helpers/http-response')
 
 module.exports = class CreateUsabilityTestRouter {
+  constructor ({ createUseCase } = {}) {
+    this.createUseCase = createUseCase
+  }
+
   async route (httpRequest) {
     try {
       const { name, accessCode, prototypeLink, externalLink } = httpRequest.body
@@ -17,6 +21,10 @@ module.exports = class CreateUsabilityTestRouter {
       if (!externalLink) {
         return HttpResponse.badRequest(new MissingParamError('externalLink'))
       }
+
+      const usabilityTest = await this.createUseCase.create({ name, accessCode, prototypeLink, externalLink })
+
+      return HttpResponse.created({ usabilityTest })
     } catch (error) {
       return HttpResponse.serverError()
     }
