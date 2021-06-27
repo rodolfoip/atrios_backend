@@ -1,4 +1,5 @@
 const { MissingParamError } = require('../../utils/errors')
+const { ServerError } = require('../errors')
 const CreateUsabilityTestRouter = require('./create-usability-test-router')
 
 const makeSut = () => {
@@ -54,5 +55,19 @@ describe('Create Usability test router', () => {
     const httpResponse = await sut.route(httpRequest)
     expect(httpResponse.statusCode).toBe(400)
     expect(httpResponse.body.error).toBe(new MissingParamError('externalLink').message)
+  })
+
+  test('should return 500 if no httpRequest is provided', async () => {
+    const { sut } = makeSut()
+    const httpResponse = await sut.route()
+    expect(httpResponse.statusCode).toBe(500)
+    expect(httpResponse.body.error).toBe(new ServerError().message)
+  })
+
+  test('should return 500 if httpRequest has no body', async () => {
+    const { sut } = makeSut()
+    const httpResponse = await sut.route({})
+    expect(httpResponse.statusCode).toBe(500)
+    expect(httpResponse.body.error).toBe(new ServerError().message)
   })
 })
