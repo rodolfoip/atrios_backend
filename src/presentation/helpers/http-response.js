@@ -41,4 +41,11 @@ module.exports = class HttpResponse {
       body
     }
   };
+
+  static deleted (body) {
+    return {
+      statusCode: 204,
+      body
+    }
+  };
 }
