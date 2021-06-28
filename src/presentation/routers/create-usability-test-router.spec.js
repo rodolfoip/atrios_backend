@@ -29,6 +29,16 @@ const makeCreateUseCase = () => {
   return createUseCaseSpy
 }
 
+const makeCreateUseCaseWithError = () => {
+  class CreateUseCaseSpy {
+    async create ({ name, accessCode, prototypeLink, externalLink }) {
+      throw new Error()
+    }
+  }
+
+  return new CreateUseCaseSpy()
+}
+
 describe('Create Usability test router', () => {
   test('should return 400 if no name is provided', async () => {
     const { sut } = makeSut()
@@ -124,5 +134,36 @@ describe('Create Usability test router', () => {
 
     expect(httpResponse.statusCode).toBe(201)
     expect(httpResponse.body.usabilityTest).toEqual(createUseCaseSpy.usabilityTest)
+  })
+
+  test('should throw if invalid dependencies are provided', async () => {
+    const sut = new CreateUsabilityTestRouter()
+    const httpRequest = {
+      body: {
+        name: 'any_test',
+        accessCode: 'any_accessCode',
+        prototypeLink: 'any_prototypeLink',
+        externalLink: 'any_externalLink'
+      }
+    }
+    const httpResponse = await sut.route(httpRequest)
+    expect(httpResponse.statusCode).toBe(500)
+    expect(httpResponse.body.error).toBe(new ServerError().message)
+  })
+
+  test('should throw if dependecy throws', async () => {
+    const createUseCase = makeCreateUseCaseWithError()
+    const sut = new CreateUsabilityTestRouter({ createUseCase })
+    const httpRequest = {
+      body: {
+        name: 'any_test',
+        accessCode: 'any_accessCode',
+        prototypeLink: 'any_prototypeLink',
+        externalLink: 'any_externalLink'
+      }
+    }
+    const httpResponse = await sut.route(httpRequest)
+    expect(httpResponse.statusCode).toBe(500)
+    expect(httpResponse.body.error).toBe(new ServerError().message)
   })
 })
