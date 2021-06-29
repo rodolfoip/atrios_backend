@@ -10,7 +10,7 @@ const makeSut = () => {
 describe('Usability test repository', () => {
   beforeAll(async () => {
     await MongoHelper.connect(process.env.MONGO_URL)
-    usabilityTestModel = await MongoHelper.getCollection('usability_test')
+    usabilityTestModel = await MongoHelper.getCollection('usability_tests')
   })
 
   beforeEach(async () => {

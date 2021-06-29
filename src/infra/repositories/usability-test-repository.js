@@ -17,7 +17,7 @@ module.exports = class UsabilityTestRepository {
       throw new MissingParamError('externalLink')
     }
 
-    const usabilityTestModel = await MongoHelper.getCollection('usability_test')
+    const usabilityTestModel = await MongoHelper.getCollection('usability_tests')
     const usabilityTest = await usabilityTestModel.insertOne({ name, accessCode, prototypeLink, externalLink })
     return usabilityTest.ops[0]
   }
