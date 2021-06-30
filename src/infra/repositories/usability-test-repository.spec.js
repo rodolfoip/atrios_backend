@@ -92,4 +92,23 @@ describe('Usability test repository', () => {
     const isDeleted = await sut.remove('60cf3ab3e0ca11825aec231s')
     expect(isDeleted).toBe(false)
   })
+
+  test('should return empty usability test list when find is called', async () => {
+    const sut = makeSut()
+    const list = await sut.find()
+    expect(list).toEqual([])
+  })
+
+  test('should return usability test list when find is called', async () => {
+    const sut = makeSut()
+    const fakeUsabilityTest = {
+      name: 'any_test',
+      accessCode: 'any_accessCode',
+      prototypeLink: 'any_prototypeLink',
+      externalLink: 'any_externalLink'
+    }
+    await usabilityTestModel.insertOne(fakeUsabilityTest)
+    const list = await sut.find()
+    expect(list).toEqual([fakeUsabilityTest])
+  })
 })

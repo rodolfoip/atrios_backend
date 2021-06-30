@@ -38,4 +38,11 @@ module.exports = class UsabilityTestRepository {
     }
     return isDeleted
   }
+
+  async find () {
+    let list = []
+    const usabilityTestModel = await MongoHelper.getCollection('usability_tests')
+    list = await usabilityTestModel.find().toArray()
+    return list
+  }
 }
