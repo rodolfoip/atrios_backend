@@ -19,7 +19,7 @@ module.exports = class CreteUseCase {
     if (!externalLink) {
       throw new MissingParamError('externalLink')
     }
-    const usabilityTest = new UsabilityTest(name, accessCode, prototypeLink, externalLink)
+    const usabilityTest = new UsabilityTest(null, name, accessCode, prototypeLink, externalLink)
     const newUsabilityTest = await this.usabilityTestRepository.persist(usabilityTest)
     return newUsabilityTest
   }
