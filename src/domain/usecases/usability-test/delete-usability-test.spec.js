@@ -12,7 +12,7 @@ const makeSut = () => {
 
 const makeUsabilityTestRepository = () => {
   class UsabilityTestRepositorySpy {
-    async delete (id) {
+    async remove (id) {
       this.id = id
       return this.isDeleted
     }

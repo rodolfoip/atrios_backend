@@ -35,4 +35,21 @@ describe('Usability Routes', () => {
       .send({})
       .expect(400)
   })
+
+  test('should return 204 when valid params are provided', async () => {
+    let fakeUsabilityTest = await usabilityTestModel.insertOne({
+      name: 'any_test',
+      accessCode: 'any_accessCode',
+      prototypeLink: 'any_prototypeLink',
+      externalLink: 'any_externalLink'
+    })
+    fakeUsabilityTest = fakeUsabilityTest.ops[0]
+
+    await request(app)
+      .delete('/api/usability-test')
+      .send({
+        id: fakeUsabilityTest._id
+      })
+      .expect(204)
+  })
 })

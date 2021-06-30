@@ -10,7 +10,7 @@ module.exports = class DeleteUseCase {
       throw new MissingParamError('id')
     }
 
-    const isDeleted = await this.usabilityTestRepository.delete(id)
+    const isDeleted = await this.usabilityTestRepository.remove(id)
     return isDeleted
   }
 }
