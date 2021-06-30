@@ -1,5 +1,6 @@
 const { MissingParamError } = require('../../utils/errors')
 const MongoHelper = require('../helpers/mongo-helper')
+const { ObjectID } = require('mongodb')
 
 module.exports = class UsabilityTestRepository {
   async persist (usabilityTestEntity) {
@@ -20,5 +21,21 @@ module.exports = class UsabilityTestRepository {
     const usabilityTestModel = await MongoHelper.getCollection('usability_tests')
     const usabilityTest = await usabilityTestModel.insertOne({ name, accessCode, prototypeLink, externalLink })
     return usabilityTest.ops[0]
+  }
+
+  async remove (id) {
+    let isDeleted
+    if (!id) {
+      throw new MissingParamError('id')
+    }
+
+    const usabilityTestModel = await MongoHelper.getCollection('usability_tests')
+    try {
+      await usabilityTestModel.deleteOne({ _id: new ObjectID(id) })
+      isDeleted = true
+    } catch (error) {
+      isDeleted = false
+    }
+    return isDeleted
   }
 }

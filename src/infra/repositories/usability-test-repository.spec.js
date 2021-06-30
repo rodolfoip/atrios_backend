@@ -65,4 +65,31 @@ describe('Usability test repository', () => {
     const persistedUsabilityTest = await sut.persist(fakeUsabilityTest)
     expect(persistedUsabilityTest).toMatchObject(fakeUsabilityTest)
   })
+
+  test('should throw if no id is provided', async () => {
+    const sut = makeSut()
+    const promise = sut.remove()
+    expect(promise).rejects.toThrow(new MissingParamError('id'))
+  })
+
+  test('should remove and return isDeleted usability test', async () => {
+    const sut = makeSut()
+    let fakeUsabilityTest = {
+      name: 'any_test',
+      accessCode: 'any_accessCode',
+      prototypeLink: 'any_prototypeLink',
+      externalLink: 'any_externalLink'
+    }
+    fakeUsabilityTest = await sut.persist(fakeUsabilityTest)
+
+    const isDeleted = await sut.remove(fakeUsabilityTest._id)
+    expect(isDeleted).toBe(true)
+  })
+
+  test('should return false no usability test exists', async () => {
+    const sut = makeSut()
+
+    const isDeleted = await sut.remove('60cf3ab3e0ca11825aec231s')
+    expect(isDeleted).toBe(false)
+  })
 })
