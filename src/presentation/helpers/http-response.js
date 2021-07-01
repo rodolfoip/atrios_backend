@@ -48,4 +48,11 @@ module.exports = class HttpResponse {
       body
     }
   };
+
+  static updated (body) {
+    return {
+      statusCode: 204,
+      body
+    }
+  };
 }
