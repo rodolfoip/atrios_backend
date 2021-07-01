@@ -24,7 +24,7 @@ module.exports = class UpdateUseCase {
     }
 
     const usabilityTest = new UsabilityTest(_id, name, accessCode, prototypeLink, externalLink)
-    const updatedUsabilityTest = await this.usabilityTestRepository.persist(usabilityTest)
+    const updatedUsabilityTest = await this.usabilityTestRepository.update(usabilityTest)
     return updatedUsabilityTest
   }
 }

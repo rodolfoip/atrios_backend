@@ -90,6 +90,19 @@ describe('Update usability test', () => {
     expect(promise).rejects.toThrow(new MissingParamError('externalLink'))
   })
 
+  test('should return usabilityTest when call create', async () => {
+    const { sut, usabilityTestRepositorySpy } = makeSut()
+    const fakeUsabilityTest = {
+      _id: 'any_id',
+      name: 'any_test',
+      accessCode: 'any_accessCode',
+      prototypeLink: 'any_prototypeLink',
+      externalLink: 'any_externalLink'
+    }
+    await sut.update(fakeUsabilityTest)
+    expect(usabilityTestRepositorySpy.usabilityTest).toEqual(fakeUsabilityTest)
+  })
+
   test('should throw if invalid dependencies are provided', async () => {
     const sut = new UpdateUseCase()
     const fakeUsabilityTest = {
