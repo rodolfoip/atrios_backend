@@ -1,5 +1,5 @@
 const UsabilityTest = require('../../models/usability-test')
-const FindUseCase = require('./find-use-case')
+const FindUseCase = require('./find-usability-test')
 
 const makeSut = () => {
   const usabilityTestRepositorySpy = makeUsabilityTestRepository()
