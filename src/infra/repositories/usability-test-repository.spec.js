@@ -111,4 +111,61 @@ describe('Usability test repository', () => {
     const list = await sut.find()
     expect(list).toEqual([fakeUsabilityTest])
   })
+
+  test('should throw if no id is provided', async () => {
+    const sut = makeSut()
+    const promise = sut.update({})
+    expect(promise).rejects.toThrow(new MissingParamError('id'))
+  })
+
+  test('should throw if no name is provided', async () => {
+    const sut = makeSut()
+    const promise = sut.update({
+      _id: 'any_id'
+    })
+    expect(promise).rejects.toThrow(new MissingParamError('name'))
+  })
+
+  test('should throw if no accessCode is provided', async () => {
+    const sut = makeSut()
+    const promise = sut.update({
+      _id: 'any_id',
+      name: 'any_test'
+    })
+    expect(promise).rejects.toThrow(new MissingParamError('accessCode'))
+  })
+
+  test('should throw if no prototypeLink is provided', async () => {
+    const sut = makeSut()
+    const promise = sut.update({
+      _id: 'any_id',
+      name: 'any_testname',
+      accessCode: 'any_code'
+    })
+    expect(promise).rejects.toThrow(new MissingParamError('prototypeLink'))
+  })
+
+  test('should throw if no externalLink is provided', async () => {
+    const sut = makeSut()
+    const promise = sut.update({
+      _id: 'any_id',
+      name: 'any_testname',
+      accessCode: 'any_code',
+      prototypeLink: 'any_link'
+    })
+    expect(promise).rejects.toThrow(new MissingParamError('externalLink'))
+  })
+
+  test('should update and return new usability test', async () => {
+    const sut = makeSut()
+    let fakeUsabilityTest = {
+      name: 'any_test',
+      accessCode: 'any_accessCode',
+      prototypeLink: 'any_prototypeLink',
+      externalLink: 'any_externalLink'
+    }
+    fakeUsabilityTest = await sut.persist(fakeUsabilityTest)
+    const updatedUsabilityTest = await sut.update(fakeUsabilityTest)
+    expect(updatedUsabilityTest.value).toMatchObject(fakeUsabilityTest)
+  })
 })
