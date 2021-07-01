@@ -1,6 +1,6 @@
 const { adapt } = require('../adapters/express-router-adapter')
 const CreateUsabilityTestComposer = require('../composers/create-usability-test.composer')
-const FindUserRouterComposer = require('../composers/find-all-usability-test.composer')
+const FindUserRouterComposer = require('../composers/find-usability-test.composer')
 const DeleteUsabilityTestComposer = require('../composers/remove-usability-test.composer')
 
 module.exports = router => {
