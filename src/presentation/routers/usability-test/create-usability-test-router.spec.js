@@ -1,5 +1,5 @@
-const { MissingParamError } = require('../../utils/errors')
-const { ServerError } = require('../errors')
+const { MissingParamError } = require('../../../utils/errors')
+const { ServerError } = require('../../errors')
 const CreateUsabilityTestRouter = require('./create-usability-test-router')
 
 const makeSut = () => {

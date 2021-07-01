@@ -1,5 +1,5 @@
-const UsabilityTest = require('../../domain/models/usability-test')
-const HttpResponse = require('../helpers/http-response')
+const UsabilityTest = require('../../../domain/models/usability-test')
+const HttpResponse = require('../../helpers/http-response')
 
 module.exports = class FindUsabilityTestRouter {
   constructor ({ findUseCase } = {}) {

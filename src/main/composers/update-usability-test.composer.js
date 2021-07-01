@@ -1,6 +1,6 @@
 const { UpdateUseCase } = require('../../domain/usecases/usability-test')
 const UsabilityTestRepository = require('../../infra/repositories/usability-test-repository')
-const UpdateUsabilityTestRouter = require('../../presentation/routers/update-usability-test-router')
+const { UpdateUsabilityTestRouter } = require('../../presentation/routers/usability-test')
 
 module.exports = class UpdateUserRouterComposer {
   static compose () {

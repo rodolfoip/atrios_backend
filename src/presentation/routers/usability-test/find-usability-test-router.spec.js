@@ -1,5 +1,5 @@
-const UsabilityTest = require('../../domain/models/usability-test')
-const { ServerError } = require('../errors')
+const UsabilityTest = require('../../../domain/models/usability-test')
+const { ServerError } = require('../../errors')
 const FindUsabilityTestRouter = require('./find-usability-test-router')
 
 const makeSut = () => {
