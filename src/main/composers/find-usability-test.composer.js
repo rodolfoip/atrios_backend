@@ -1,4 +1,4 @@
-const FindUseCase = require('../../domain/usecases/usability-test/find-usability-test')
+const { FindUseCase } = require('../../domain/usecases/usability-test')
 const UsabilityTestRepository = require('../../infra/repositories/usability-test-repository')
 const FindUsabilityTestRouter = require('../../presentation/routers/find-usability-test-router')
 
