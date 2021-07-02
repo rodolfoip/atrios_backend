@@ -168,4 +168,23 @@ describe('Usability test repository', () => {
     const updatedUsabilityTest = await sut.update(fakeUsabilityTest)
     expect(updatedUsabilityTest.value).toMatchObject(fakeUsabilityTest)
   })
+
+  test('should throw if no name is provided', () => {
+    const sut = makeSut()
+    const promise = sut.findByName()
+    expect(promise).rejects.toThrow(new MissingParamError('name'))
+  })
+
+  test('should return usability test when findByName is called', async () => {
+    const sut = makeSut()
+    const fakeUsabilityTest = {
+      name: 'any_test',
+      accessCode: 'any_accessCode',
+      prototypeLink: 'any_prototypeLink',
+      externalLink: 'any_externalLink'
+    }
+    await usabilityTestModel.insertOne(fakeUsabilityTest)
+    const usabilityTest = await sut.findByName(fakeUsabilityTest.name)
+    expect(usabilityTest).toEqual(fakeUsabilityTest)
+  })
 })
