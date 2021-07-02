@@ -10,6 +10,6 @@ module.exports = class FindByNameUseCase {
       throw new MissingParamError('name')
     }
 
-    return await this.usabilityTestRepository.find(name)
+    return await this.usabilityTestRepository.findByName(name)
   }
 }

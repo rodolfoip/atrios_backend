@@ -12,7 +12,7 @@ const makeSut = () => {
 
 const makeUsabilityTestRepository = () => {
   class UsabilityTestRepositorySpy {
-    async find (name) {
+    async findByName (name) {
       this.name = name
       return this.usabilityTest
     }
