@@ -8,7 +8,7 @@ const UpdateUserRouterComposer = require('../composers/update-usability-test.com
 module.exports = router => {
   router.post('/usability-test', (adapt(CreateUsabilityTestComposer.compose())))
   router.get('/usability-test', (adapt(FindUserRouterComposer.compose())))
-  router.get('/usability-test/{name}', (adapt(FindByNameUserRouterComposer.compose())))
+  router.get('/usability-test/:name', (adapt(FindByNameUserRouterComposer.compose())))
   router.put('/usability-test', (adapt(UpdateUserRouterComposer.compose())))
   router.delete('/usability-test', (adapt(DeleteUsabilityTestComposer.compose())))
 }
