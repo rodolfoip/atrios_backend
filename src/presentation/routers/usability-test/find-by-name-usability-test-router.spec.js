@@ -34,7 +34,7 @@ describe('Find UsabilityTest Router', () => {
   test('should return 400 if no name is provided', async () => {
     const { sut } = makeSut()
     const httpRequest = {
-      body: {}
+      params: {}
     }
     const httpResponse = await sut.route(httpRequest)
     expect(httpResponse.statusCode).toBe(400)
@@ -44,7 +44,7 @@ describe('Find UsabilityTest Router', () => {
   test('should return 200 when find has called', async () => {
     const { sut } = makeSut()
     const httpRequest = {
-      body: {
+      params: {
         name: 'any_name'
       }
     }
@@ -55,7 +55,7 @@ describe('Find UsabilityTest Router', () => {
   test('should return usability test ', async () => {
     const { sut, findByNameUseCaseSpy } = makeSut()
     const httpRequest = {
-      body: {
+      params: {
         name: 'any_name'
       }
     }
