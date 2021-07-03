@@ -82,7 +82,7 @@ describe('Create usability test', () => {
       testId: 'any_id',
       ...fakeUsabilityTest
     })
-    expect(usabilityTestRepositorySpy.usabilityTest.tasks).toEqual([fakeUsabilityTest])
+    expect(usabilityTestRepositorySpy.usabilityTest.tasks).toMatchObject([fakeUsabilityTest])
   })
 
   test('should throw if invalid dependencies are provided', async () => {

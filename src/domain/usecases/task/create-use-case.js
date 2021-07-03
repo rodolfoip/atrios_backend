@@ -6,7 +6,7 @@ module.exports = class CreteUseCase {
     this.usabilityTestRepository = usabilityTestRepository
   }
 
-  async create ({ testId, order, description }) {
+  async create ({ testId, order, description, sus, affectGrid }) {
     if (!testId) {
       throw new MissingParamError('testId')
     }
@@ -18,7 +18,7 @@ module.exports = class CreteUseCase {
     }
 
     const usabilityTest = await this.usabilityTestRepository.findById(testId)
-    const task = new Task(order, description)
+    const task = new Task(order, description, sus, affectGrid)
 
     usabilityTest.tasks.push(task)
     await this.usabilityTestRepository.update(usabilityTest)
