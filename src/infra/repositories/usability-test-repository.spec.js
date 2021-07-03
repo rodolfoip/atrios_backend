@@ -169,6 +169,29 @@ describe('Usability test repository', () => {
     expect(updatedUsabilityTest.value).toMatchObject(fakeUsabilityTest)
   })
 
+  test('should update with news tasks and return usability test', async () => {
+    const sut = makeSut()
+    let fakeUsabilityTest = {
+      name: 'any_test',
+      accessCode: 'any_accessCode',
+      prototypeLink: 'any_prototypeLink',
+      externalLink: 'any_externalLink',
+      tasks: [
+        {
+          order: 1,
+          description: 'any_description'
+        },
+        {
+          order: 2,
+          description: 'any_description'
+        }
+      ]
+    }
+    fakeUsabilityTest = await sut.persist(fakeUsabilityTest)
+    const updatedUsabilityTest = await sut.update(fakeUsabilityTest)
+    expect(updatedUsabilityTest.value).toMatchObject(fakeUsabilityTest)
+  })
+
   test('should throw if no name is provided', () => {
     const sut = makeSut()
     const promise = sut.findByName()
@@ -185,6 +208,25 @@ describe('Usability test repository', () => {
     }
     await usabilityTestModel.insertOne(fakeUsabilityTest)
     const usabilityTest = await sut.findByName(fakeUsabilityTest.name)
+    expect(usabilityTest).toEqual(fakeUsabilityTest)
+  })
+
+  test('should throw if no id is provided', () => {
+    const sut = makeSut()
+    const promise = sut.findById()
+    expect(promise).rejects.toThrow(new MissingParamError('_id'))
+  })
+
+  test('should return usability test when findById is called', async () => {
+    const sut = makeSut()
+    const fakeUsabilityTest = {
+      name: 'any_test',
+      accessCode: 'any_accessCode',
+      prototypeLink: 'any_prototypeLink',
+      externalLink: 'any_externalLink'
+    }
+    const persistedUsabilityTest = await usabilityTestModel.insertOne(fakeUsabilityTest)
+    const usabilityTest = await sut.findById(persistedUsabilityTest.ops[0]._id)
     expect(usabilityTest).toEqual(fakeUsabilityTest)
   })
 })
