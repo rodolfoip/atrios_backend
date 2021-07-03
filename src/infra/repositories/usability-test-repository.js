@@ -51,7 +51,7 @@ module.exports = class UsabilityTestRepository {
       throw new MissingParamError('_id')
     }
     const usabilityTestModel = await MongoHelper.getCollection('usability_tests')
-    return await usabilityTestModel.findOne({ _id })
+    return await usabilityTestModel.findOne({ _id: new ObjectID(_id) })
   }
 
   async findByName (name) {
