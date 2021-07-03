@@ -8,9 +8,9 @@ module.exports = class CreateTaskRouter {
 
   async route (httpRequest) {
     try {
-      const { _idTest, order, description } = httpRequest.body
-      if (!_idTest) {
-        return HttpResponse.badRequest(new MissingParamError('_idTest'))
+      const { testId, order, description } = httpRequest.body
+      if (!testId) {
+        return HttpResponse.badRequest(new MissingParamError('testId'))
       }
       if (!order) {
         return HttpResponse.badRequest(new MissingParamError('order'))
@@ -19,7 +19,7 @@ module.exports = class CreateTaskRouter {
         return HttpResponse.badRequest(new MissingParamError('description'))
       }
 
-      const task = await this.createUseCase.create({ _idTest, order, description })
+      const task = await this.createUseCase.create({ testId, order, description })
 
       return HttpResponse.created({ task })
     } catch (error) {

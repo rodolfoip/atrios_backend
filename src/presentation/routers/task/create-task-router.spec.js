@@ -10,8 +10,8 @@ const makeSut = () => {
 
 const makeCreateUseCase = () => {
   class CreateUseCaseSpy {
-    async create ({ _idTest, order, description }) {
-      this._idTest = _idTest
+    async create ({ testId, order, description }) {
+      this.testId = testId
       this.order = order
       this.description = description
       return this.task
@@ -20,7 +20,7 @@ const makeCreateUseCase = () => {
 
   const createUseCaseSpy = new CreateUseCaseSpy()
   createUseCaseSpy.task = {
-    _idTest: 'any_id',
+    testId: 'any_id',
     order: 'any_order',
     description: 'any_description'
   }
@@ -45,14 +45,14 @@ describe('Create task router', () => {
     }
     const httpResponse = await sut.route(httpRequest)
     expect(httpResponse.statusCode).toBe(400)
-    expect(httpResponse.body.error).toBe(new MissingParamError('_idTest').message)
+    expect(httpResponse.body.error).toBe(new MissingParamError('testId').message)
   })
 
   test('should return 400 if no order is provided', async () => {
     const { sut } = makeSut()
     const httpRequest = {
       body: {
-        _idTest: 'any_id'
+        testId: 'any_id'
       }
     }
     const httpResponse = await sut.route(httpRequest)
@@ -64,7 +64,7 @@ describe('Create task router', () => {
     const { sut } = makeSut()
     const httpRequest = {
       body: {
-        _idTest: 'any_id',
+        testId: 'any_id',
         order: 1
       }
     }
@@ -84,13 +84,13 @@ describe('Create task router', () => {
     const { sut, createUseCaseSpy } = makeSut()
     const httpRequest = {
       body: {
-        _idTest: 'any_id',
+        testId: 'any_id',
         order: 'any_order',
         description: 'any_description'
       }
     }
     await sut.route(httpRequest)
-    expect(createUseCaseSpy.task._idTest).toBe(httpRequest.body._idTest)
+    expect(createUseCaseSpy.task.testId).toBe(httpRequest.body.testId)
     expect(createUseCaseSpy.task.order).toBe(httpRequest.body.order)
     expect(createUseCaseSpy.task.description).toBe(httpRequest.body.description)
   })
@@ -99,7 +99,7 @@ describe('Create task router', () => {
     const { sut, createUseCaseSpy } = makeSut()
     const httpRequest = {
       body: {
-        _idTest: 'any_id',
+        testId: 'any_id',
         order: 'any_order',
         description: 'any_description'
       }
@@ -114,7 +114,7 @@ describe('Create task router', () => {
     const sut = new CreateTaskRouter()
     const httpRequest = {
       body: {
-        _idTest: 'any_id',
+        testId: 'any_id',
         order: 'any_order',
         description: 'any_description'
       }
@@ -129,7 +129,7 @@ describe('Create task router', () => {
     const sut = new CreateTaskRouter({ createUseCase })
     const httpRequest = {
       body: {
-        _idTest: 'any_id',
+        testId: 'any_id',
         order: 'any_order',
         description: 'any_description'
       }
