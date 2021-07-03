@@ -4,7 +4,7 @@ const { ObjectID } = require('mongodb')
 
 module.exports = class UsabilityTestRepository {
   async persist (usabilityTestEntity) {
-    const { name, accessCode, prototypeLink, externalLink } = usabilityTestEntity
+    const { name, accessCode, prototypeLink, externalLink, tasks } = usabilityTestEntity
     if (!name) {
       throw new MissingParamError('name')
     }
@@ -17,9 +17,12 @@ module.exports = class UsabilityTestRepository {
     if (!externalLink) {
       throw new MissingParamError('externalLink')
     }
+    if (!tasks) {
+      throw new MissingParamError('tasks')
+    }
 
     const usabilityTestModel = await MongoHelper.getCollection('usability_tests')
-    const usabilityTest = await usabilityTestModel.insertOne({ name, accessCode, prototypeLink, externalLink })
+    const usabilityTest = await usabilityTestModel.insertOne({ name, accessCode, prototypeLink, externalLink, tasks })
     return usabilityTest.ops[0]
   }
 

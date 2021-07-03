@@ -54,13 +54,25 @@ describe('Usability test repository', () => {
     expect(promise).rejects.toThrow(new MissingParamError('externalLink'))
   })
 
+  test('should throw if no tasks is provided', async () => {
+    const sut = makeSut()
+    const promise = sut.persist({
+      name: 'any_testname',
+      accessCode: 'any_code',
+      prototypeLink: 'any_link',
+      externalLink: 'any_externalLink'
+    })
+    expect(promise).rejects.toThrow(new MissingParamError('tasks'))
+  })
+
   test('should persist and return new usability test', async () => {
     const sut = makeSut()
     const fakeUsabilityTest = {
       name: 'any_test',
       accessCode: 'any_accessCode',
       prototypeLink: 'any_prototypeLink',
-      externalLink: 'any_externalLink'
+      externalLink: 'any_externalLink',
+      tasks: []
     }
     const persistedUsabilityTest = await sut.persist(fakeUsabilityTest)
     expect(persistedUsabilityTest).toMatchObject(fakeUsabilityTest)
@@ -78,7 +90,8 @@ describe('Usability test repository', () => {
       name: 'any_test',
       accessCode: 'any_accessCode',
       prototypeLink: 'any_prototypeLink',
-      externalLink: 'any_externalLink'
+      externalLink: 'any_externalLink',
+      tasks: []
     }
     fakeUsabilityTest = await sut.persist(fakeUsabilityTest)
 
@@ -162,7 +175,8 @@ describe('Usability test repository', () => {
       name: 'any_test',
       accessCode: 'any_accessCode',
       prototypeLink: 'any_prototypeLink',
-      externalLink: 'any_externalLink'
+      externalLink: 'any_externalLink',
+      tasks: []
     }
     fakeUsabilityTest = await sut.persist(fakeUsabilityTest)
     const updatedUsabilityTest = await sut.update(fakeUsabilityTest)
