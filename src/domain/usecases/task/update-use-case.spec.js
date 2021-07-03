@@ -86,6 +86,34 @@ describe('Update task', () => {
     expect(usabilityTestRepositorySpy.usabilityTest.tasks).toMatchObject([fakeTask])
   })
 
+  test('should return tasks when call update', async () => {
+    const { sut, usabilityTestRepositorySpy } = makeSut()
+    usabilityTestRepositorySpy.usabilityTest.tasks[0].sus = 20
+    const fakeTask = {
+      order: 1,
+      affectGrid: 45
+    }
+    await sut.update({
+      testId: 'any_id',
+      ...fakeTask
+    })
+    expect(usabilityTestRepositorySpy.usabilityTest.tasks).toMatchObject([fakeTask])
+  })
+
+  test('should return tasks when call update', async () => {
+    const { sut, usabilityTestRepositorySpy } = makeSut()
+    usabilityTestRepositorySpy.usabilityTest.tasks[0].sus = 20
+    const fakeTask = {
+      order: 2,
+      affectGrid: 45
+    }
+    await sut.update({
+      testId: 'any_id',
+      ...fakeTask
+    })
+    expect(usabilityTestRepositorySpy.usabilityTest.tasks).not.toMatchObject([fakeTask])
+  })
+
   test('should throw if invalid dependencies are provided', async () => {
     const sut = new UpdateUseCase()
     const fakeUsabilityTest = {
