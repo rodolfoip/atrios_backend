@@ -17,7 +17,7 @@ module.exports = class CreteUseCase {
       throw new MissingParamError('description')
     }
 
-    const usabilityTest = await this.usabilityTestRepository.findById({ _id: testId })
+    const usabilityTest = await this.usabilityTestRepository.findById(testId)
     const task = new Task(order, description)
 
     usabilityTest.tasks.push(task)
