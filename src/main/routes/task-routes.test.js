@@ -81,4 +81,37 @@ describe('Task routes', () => {
       })
       .expect(400)
   })
+
+  test('should return 204 when valid params are provided', async () => {
+    let fakeUsabilityTest = await usabilityTestModel.insertOne({
+      name: 'any_tests',
+      accessCode: 'any_accessCode',
+      prototypeLink: 'any_prototypeLink',
+      externalLink: 'any_externalLink',
+      tasks: [
+        {
+          order: 1,
+          description: 'any_description'
+        }
+      ]
+    })
+    fakeUsabilityTest = fakeUsabilityTest.ops[0]
+
+    await request(app)
+      .delete('/api/usability-test/task')
+      .send({
+        testId: fakeUsabilityTest._id,
+        order: 1
+      })
+      .expect(204)
+  })
+
+  test('should return 400 when invalid params are provided', async () => {
+    await request(app)
+      .delete('/api/usability-test/task')
+      .send({
+        order: 1
+      })
+      .expect(400)
+  })
 })
