@@ -2,7 +2,7 @@ const { FindByNameUseCase } = require('../../domain/usecases/usability-test')
 const UsabilityTestRepository = require('../../infra/repositories/usability-test-repository')
 const { FindByNameUsabilityTestRouter } = require('../../presentation/routers/usability-test')
 
-module.exports = class FindUserRouterComposer {
+module.exports = class FindByNameRouterComposer {
   static compose () {
     const usabilityTestRepository = new UsabilityTestRepository()
     const findByNameUseCase = new FindByNameUseCase({
