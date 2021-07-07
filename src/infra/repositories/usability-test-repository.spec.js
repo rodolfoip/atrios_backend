@@ -225,6 +225,25 @@ describe('Usability test repository', () => {
     expect(usabilityTest).toEqual(fakeUsabilityTest)
   })
 
+  test('should throw if no access code is provided', () => {
+    const sut = makeSut()
+    const promise = sut.findByAccessCode()
+    expect(promise).rejects.toThrow(new MissingParamError('accessCode'))
+  })
+
+  test('should return usability test when findByAccessCode is called', async () => {
+    const sut = makeSut()
+    const fakeUsabilityTest = {
+      name: 'any_test',
+      accessCode: 'any_accessCode',
+      prototypeLink: 'any_prototypeLink',
+      externalLink: 'any_externalLink'
+    }
+    await usabilityTestModel.insertOne(fakeUsabilityTest)
+    const usabilityTest = await sut.findByAccessCode(fakeUsabilityTest.accessCode)
+    expect(usabilityTest).toEqual(fakeUsabilityTest)
+  })
+
   test('should throw if no id is provided', () => {
     const sut = makeSut()
     const promise = sut.findById()
