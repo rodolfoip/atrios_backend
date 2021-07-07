@@ -5,7 +5,7 @@ const FindByAccessCodeUsabilityTestRouter = require('./find-by-accesscode-usabil
 
 const makeSut = () => {
   const findByAccessCodeUseCaseSpy = makeFindByNameUseCase()
-  const sut = new FindByAccessCodeUsabilityTestRouter({ findByNameUseCase: findByAccessCodeUseCaseSpy })
+  const sut = new FindByAccessCodeUsabilityTestRouter({ findByAccessCodeUseCase: findByAccessCodeUseCaseSpy })
   return { sut, findByAccessCodeUseCaseSpy }
 }
 

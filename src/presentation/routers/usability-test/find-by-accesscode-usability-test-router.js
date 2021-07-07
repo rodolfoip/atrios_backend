@@ -2,9 +2,9 @@ const UsabilityTest = require('../../../domain/models/usability-test')
 const { MissingParamError } = require('../../../utils/errors')
 const HttpResponse = require('../../helpers/http-response')
 
-module.exports = class FindByNameUsabilityTestRouter {
-  constructor ({ findByNameUseCase } = {}) {
-    this.findByNameUseCase = findByNameUseCase
+module.exports = class FindByAccessCodeUsabilityTestRouter {
+  constructor ({ findByAccessCodeUseCase } = {}) {
+    this.findByAccessCodeUseCase = findByAccessCodeUseCase
   }
 
   async route (httpRequest) {
@@ -13,7 +13,7 @@ module.exports = class FindByNameUsabilityTestRouter {
         return HttpResponse.badRequest(new MissingParamError('accessCode'))
       }
 
-      const { _id, name, accessCode, prototypeLink, externalLink } = await this.findByNameUseCase.find(httpRequest.params.name)
+      const { _id, name, accessCode, prototypeLink, externalLink } = await this.findByAccessCodeUseCase.find(httpRequest.params.accessCode)
       const usabilityTest = new UsabilityTest(_id, name, accessCode, prototypeLink, externalLink)
       return HttpResponse.ok({ usabilityTest })
     } catch (error) {
