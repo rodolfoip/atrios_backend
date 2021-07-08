@@ -14,7 +14,7 @@ module.exports = class DeleteUseCase {
     }
 
     const usabilityTest = await this.usabilityTestRepository.findById(testId)
-    usabilityTest.tasks.map((task, index) => {
+    usabilityTest.tasks = usabilityTest.tasks.filter((task, index) => {
       let newTask
       if (task.order !== order) {
         task.order = (index + 1)
