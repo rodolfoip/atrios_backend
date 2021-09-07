@@ -13,8 +13,8 @@ module.exports = class FindByNameUsabilityTestRouter {
         return HttpResponse.badRequest(new MissingParamError('name'))
       }
 
-      const { _id, name, accessCode, prototypeLink, externalLink } = await this.findByNameUseCase.find(httpRequest.params.name)
-      const usabilityTest = new UsabilityTest(_id, name, accessCode, prototypeLink, externalLink)
+      const { _id, name, accessCode, prototypeLink, externalLink, tasks } = await this.findByNameUseCase.find(httpRequest.params.name)
+      const usabilityTest = new UsabilityTest(_id, name, accessCode, prototypeLink, externalLink, tasks)
       return HttpResponse.ok({ usabilityTest })
     } catch (error) {
       return HttpResponse.serverError()
