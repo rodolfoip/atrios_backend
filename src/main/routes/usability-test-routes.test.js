@@ -88,7 +88,7 @@ describe('Usability Routes', () => {
       externalLink: 'any_externalLink'
     })
     await request(app)
-      .get('/api/usability-test/any_test')
+      .get('/api/usability-test/name/any_test')
       .expect(200)
   })
 
