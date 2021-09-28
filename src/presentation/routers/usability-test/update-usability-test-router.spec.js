@@ -67,19 +67,6 @@ describe('Update usability test router', () => {
     expect(httpResponse.body.error).toBe(new MissingParamError('name').message)
   })
 
-  test('should return 400 if no accessCode is provided', async () => {
-    const { sut } = makeSut()
-    const httpRequest = {
-      body: {
-        _id: 'any_id',
-        name: 'any_test'
-      }
-    }
-    const httpResponse = await sut.route(httpRequest)
-    expect(httpResponse.statusCode).toBe(400)
-    expect(httpResponse.body.error).toBe(new MissingParamError('accessCode').message)
-  })
-
   test('should return 400 if no prototypeLink is provided', async () => {
     const { sut } = makeSut()
     const httpRequest = {

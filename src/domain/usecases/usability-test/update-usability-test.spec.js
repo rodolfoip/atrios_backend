@@ -59,15 +59,6 @@ describe('Update usability test', () => {
     expect(promise).rejects.toThrow(new MissingParamError('name'))
   })
 
-  test('should throw MissingParamError if no accessCode is provided', () => {
-    const { sut } = makeSut()
-    const promise = sut.update({
-      _id: 'any_id',
-      name: 'any_testname'
-    })
-    expect(promise).rejects.toThrow(new MissingParamError('accessCode'))
-  })
-
   test('should throw MissingParamError if no prototypeLink is provided', () => {
     const { sut } = makeSut()
     const promise = sut.update({

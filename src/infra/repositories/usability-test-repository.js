@@ -74,15 +74,12 @@ module.exports = class UsabilityTestRepository {
   }
 
   async update (usabilityTestEntity) {
-    const { _id, name, accessCode, prototypeLink, externalLink, tasks } = usabilityTestEntity
+    const { _id, name, prototypeLink, externalLink, tasks } = usabilityTestEntity
     if (!_id) {
       throw new MissingParamError('id')
     }
     if (!name) {
       throw new MissingParamError('name')
-    }
-    if (!accessCode) {
-      throw new MissingParamError('accessCode')
     }
     if (!prototypeLink) {
       throw new MissingParamError('prototypeLink')
@@ -99,7 +96,6 @@ module.exports = class UsabilityTestRepository {
       {
         $set: {
           name,
-          accessCode,
           prototypeLink,
           externalLink,
           tasks
