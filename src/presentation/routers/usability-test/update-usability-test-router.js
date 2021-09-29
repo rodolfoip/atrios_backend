@@ -25,7 +25,6 @@ module.exports = class UpdateUsabilityTestRouter {
       const usabilityTest = await this.updateUseCase.update({ _id, name, prototypeLink, externalLink })
       return HttpResponse.updated({ usabilityTest })
     } catch (error) {
-      console.log(error)
       return HttpResponse.serverError()
     }
   }
