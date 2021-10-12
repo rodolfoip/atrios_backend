@@ -5,7 +5,7 @@ module.exports = class UpdateUseCase {
     this.usabilityTestRepository = usabilityTestRepository
   }
 
-  async update ({ testId, order, description, sus, affectGrid }) {
+  async update ({ testId, order, newOrder, description, sus, affectGrid }) {
     if (!testId) {
       throw new MissingParamError('testId')
     }
@@ -18,6 +18,7 @@ module.exports = class UpdateUseCase {
 
     usabilityTest.tasks.map((task) => {
       if (task.order === order) {
+        task.order = newOrder ?? task.order
         task.description = description ?? task.description
         task.sus = sus ?? task.sus
         task.affectGrid = affectGrid ?? task.affectGrid
