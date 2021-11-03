@@ -74,7 +74,7 @@ module.exports = class UsabilityTestRepository {
   }
 
   async update (usabilityTestEntity) {
-    const { _id, name, prototypeLink, externalLink, tasks } = usabilityTestEntity
+    const { _id, name, prototypeLink, externalLink, tasks, quantity } = usabilityTestEntity
     if (!_id) {
       throw new MissingParamError('id')
     }
@@ -98,7 +98,8 @@ module.exports = class UsabilityTestRepository {
           name,
           prototypeLink,
           externalLink,
-          tasks
+          tasks,
+          quantity
         }
       },
       {
