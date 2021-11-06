@@ -15,12 +15,6 @@ module.exports = class CreateResultRouter {
       if (!orderTask) {
         return HttpResponse.badRequest(new MissingParamError('orderTask'))
       }
-      if (!sus) {
-        return HttpResponse.badRequest(new MissingParamError('sus'))
-      }
-      if (!affectGrid) {
-        return HttpResponse.badRequest(new MissingParamError('affectGrid'))
-      }
       if (!timeTask) {
         return HttpResponse.badRequest(new MissingParamError('timeTask'))
       }

@@ -6,18 +6,12 @@ module.exports = class CreteUseCase {
     this.resultRepository = resultRepository
   }
 
-  async create ({ testId, orderTask, sus, affectGrid, timeTask, aborted, clicks }) {
+  async create ({ testId, orderTask, timeTask, aborted, clicks, sus, affectGrid }) {
     if (!testId) {
       throw new MissingParamError('testId')
     }
     if (!orderTask) {
       throw new MissingParamError('orderTask')
-    }
-    if (!sus) {
-      throw new MissingParamError('sus')
-    }
-    if (!affectGrid) {
-      throw new MissingParamError('affectGrid')
     }
     if (!timeTask) {
       throw new MissingParamError('timeTask')

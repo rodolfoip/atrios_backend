@@ -11,12 +11,6 @@ module.exports = class UsabilityTestRepository {
     if (!orderTask) {
       throw new MissingParamError('orderTask')
     }
-    if (!sus) {
-      throw new MissingParamError('sus')
-    }
-    if (!affectGrid) {
-      throw new MissingParamError('affectGrid')
-    }
     if (!timeTask) {
       throw new MissingParamError('timeTask')
     }

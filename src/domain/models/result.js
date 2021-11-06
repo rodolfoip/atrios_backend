@@ -1,5 +1,5 @@
 module.exports = class Task {
-  constructor (testId, orderTask, sus, affectGrid, timeTask, aborted, clicks) {
+  constructor (testId, orderTask, timeTask, aborted, clicks, sus = 0, affectGrid = 0) {
     this.testId = testId
     this.orderTask = orderTask
     this.sus = sus
