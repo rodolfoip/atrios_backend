@@ -4,14 +4,14 @@ const { ObjectID } = require('mongodb')
 
 module.exports = class UsabilityTestRepository {
   async persist (resultTestEntity) {
-    const { testId, orderTask, sus, affectGrid, timeTask, aborted, clicks } = resultTestEntity
+    const { testId, orderTask, timeTask, aborted, clicks } = resultTestEntity
     if (!testId) {
       throw new MissingParamError('testId')
     }
     if (!orderTask) {
       throw new MissingParamError('orderTask')
     }
-    if (!timeTask) {
+    if (!timeTask.length) {
       throw new MissingParamError('timeTask')
     }
     if (typeof aborted !== 'boolean') {
@@ -22,7 +22,7 @@ module.exports = class UsabilityTestRepository {
     }
 
     const resultTestModel = await MongoHelper.getCollection('result_tests')
-    const result = await resultTestModel.insertOne({ testId, orderTask, sus, affectGrid, timeTask, aborted, clicks })
+    const result = await resultTestModel.insertOne({ testId, orderTask, timeTask, aborted, clicks })
     return result.ops[0]
   }
 

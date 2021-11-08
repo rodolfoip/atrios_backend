@@ -13,19 +13,19 @@ module.exports = class CreteUseCase {
     if (!orderTask) {
       throw new MissingParamError('orderTask')
     }
-    if (!timeTask) {
+    if (!timeTask.length) {
       throw new MissingParamError('timeTask')
     }
     if (typeof aborted !== 'boolean') {
       throw new MissingParamError('aborted')
     }
-    if (!clicks) {
+    if (typeof clicks !== 'number') {
       throw new MissingParamError('clicks')
     }
 
-    const result = new Result(testId, orderTask, sus, affectGrid, timeTask, aborted, clicks)
+    const result = new Result(null, testId, orderTask, timeTask, aborted, clicks)
 
-    await this.resultRepository.persist(result)
-    return result
+    const newResult = await this.resultRepository.persist(result)
+    return newResult
   }
 }

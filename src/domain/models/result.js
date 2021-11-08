@@ -1,5 +1,6 @@
 module.exports = class Task {
-  constructor (testId, orderTask, timeTask, aborted, clicks, sus = 0, affectGrid = 0) {
+  constructor (_id, testId, orderTask, timeTask, aborted, clicks, sus = 0, affectGrid = 0) {
+    this._id = _id
     this.testId = testId
     this.orderTask = orderTask
     this.sus = sus
