@@ -59,4 +59,28 @@ module.exports = class UsabilityTestRepository {
     const resultTestModel = await MongoHelper.getCollection('result_tests')
     return await resultTestModel.findOne({ testId: new ObjectID(testId), orderTask })
   }
+
+  async update (resultTestEntity) {
+    const { _id, sus, affectGrid } = resultTestEntity
+    if (!_id) {
+      throw new MissingParamError('_id')
+    }
+
+    const resultTestModel = await MongoHelper.getCollection('result_tests')
+    const result = await resultTestModel.findOneAndUpdate(
+      {
+        _id: new ObjectID(_id)
+      },
+      {
+        $set: {
+          sus,
+          affectGrid
+        }
+      },
+      {
+        returnNewDocument: true
+      }
+    )
+    return result
+  }
 }
