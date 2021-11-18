@@ -65,7 +65,7 @@ describe('Usability Routes', () => {
       .expect(200)
   })
 
-  test('should return 204 when valid params are provided - update', async () => {
+  test('should return 200 when valid params are provided - update', async () => {
     let fakeUsabilityTest = await usabilityTestModel.insertOne({
       name: 'any_test',
       prototypeLink: 'any_prototypeLink',
@@ -76,7 +76,7 @@ describe('Usability Routes', () => {
     await request(app)
       .put('/api/usability-test')
       .send(fakeUsabilityTest)
-      .expect(204)
+      .expect(200)
   })
 
   test('should return 200 when valid params are provided', async () => {

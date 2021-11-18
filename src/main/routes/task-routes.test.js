@@ -47,7 +47,7 @@ describe('Task routes', () => {
       .expect(400)
   })
 
-  test('should return 204 when valid params are provided', async () => {
+  test('should return 200 when valid params are provided', async () => {
     let fakeUsabilityTest = await usabilityTestModel.insertOne({
       name: 'any_tests',
       accessCode: 'any_accessCode',
@@ -69,7 +69,7 @@ describe('Task routes', () => {
         order: 1,
         description: 'other_description'
       })
-      .expect(204)
+      .expect(200)
   })
 
   test('should return 400 when invalid params are provided', async () => {
