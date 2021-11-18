@@ -78,9 +78,9 @@ module.exports = class UsabilityTestRepository {
         }
       },
       {
-        returnNewDocument: true
+        returnDocument: 'after'
       }
     )
-    return result
+    return result.value
   }
 }

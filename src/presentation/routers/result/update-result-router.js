@@ -15,7 +15,7 @@ module.exports = class CreateResultRouter {
 
       const result = await this.updateUseCase.update({ _id, sus, affectGrid })
 
-      return HttpResponse.ok({ result })
+      return HttpResponse.updated({ result })
     } catch (error) {
       return HttpResponse.serverError()
     }
