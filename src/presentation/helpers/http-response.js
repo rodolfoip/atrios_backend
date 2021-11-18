@@ -51,7 +51,7 @@ module.exports = class HttpResponse {
 
   static updated (body) {
     return {
-      statusCode: 204,
+      statusCode: 200,
       body
     }
   };

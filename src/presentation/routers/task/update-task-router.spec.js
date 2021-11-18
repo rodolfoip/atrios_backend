@@ -86,7 +86,7 @@ describe('Create task router', () => {
     expect(updateUseCaseSpy.task.description).toBe(httpRequest.body.description)
   })
 
-  test('should return 204 when valid params are provided', async () => {
+  test('should return 200 when valid params are provided', async () => {
     const { sut, updateUseCaseSpy } = makeSut()
     const httpRequest = {
       body: {
@@ -97,7 +97,7 @@ describe('Create task router', () => {
     }
     const httpResponse = await sut.route(httpRequest)
 
-    expect(httpResponse.statusCode).toBe(204)
+    expect(httpResponse.statusCode).toBe(200)
     expect(httpResponse.body.task).toEqual(updateUseCaseSpy.task)
   })
 
