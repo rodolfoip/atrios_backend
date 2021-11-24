@@ -20,7 +20,10 @@ module.exports = class AuthUseCase {
     if (isValid) {
       const accessToken = await this.tokenGenerator.generate(user._id)
       await this.updateAccessTokenRepository.update(user._id, accessToken)
-      return accessToken
+      return {
+        accessToken: accessToken,
+        _id: user._id
+      }
     }
     return null
   }

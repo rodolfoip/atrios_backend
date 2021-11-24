@@ -37,7 +37,7 @@ describe('Login routes', () => {
     await request(app)
       .post('/api/login')
       .send({
-        email: 'valid_email@mail.com',
+        email: 'invalid_email@mail.com',
         password: 'hashed_password'
       })
       .expect(401)

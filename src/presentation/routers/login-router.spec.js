@@ -43,11 +43,15 @@ const makeAuthUseCase = () => {
     async auth (email, password) {
       this.email = email
       this.password = password
-      return this.accessToken
+      return {
+        accessToken: this.accessToken,
+        _id: this._id
+      }
     }
   }
   const authUseCaseSpy = new AuthUseCaseSpy()
   authUseCaseSpy.accessToken = 'valid_token'
+  authUseCaseSpy._id = 'userId'
   return authUseCaseSpy
 }
 
@@ -116,6 +120,7 @@ describe('Login router', () => {
   test('should return 401 when invalid credentials are provided', async () => {
     const { sut, authUseCaseSpy } = makeSut()
     authUseCaseSpy.accessToken = null
+    authUseCaseSpy._id = null
 
     const httpRequest = {
       body: {
@@ -139,7 +144,7 @@ describe('Login router', () => {
     }
     const httpResponse = await sut.route(httpRequest)
     expect(httpResponse.statusCode).toBe(200)
-    expect(httpResponse.body.accessToken).toEqual(authUseCaseSpy.accessToken)
+    expect(httpResponse.body.data.accessToken).toEqual(authUseCaseSpy.accessToken)
   })
 
   test('should return 400 if an invalid email is provided', async () => {
