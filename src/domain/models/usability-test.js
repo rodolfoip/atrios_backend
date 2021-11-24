@@ -1,5 +1,5 @@
 module.exports = class UsabilityTest {
-  constructor (_id, name, accessCode, prototypeLink, externalLink, tasks = [], quantity = 0) {
+  constructor (_id, name, accessCode, prototypeLink, externalLink, userId, tasks = [], quantity = 0) {
     this._id = _id
     this.name = name
     this.accessCode = accessCode
@@ -7,5 +7,6 @@ module.exports = class UsabilityTest {
     this.externalLink = externalLink
     this.tasks = tasks
     this.quantity = quantity
+    this.userId = userId
   }
 }

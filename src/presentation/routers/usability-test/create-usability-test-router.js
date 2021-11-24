@@ -8,7 +8,7 @@ module.exports = class CreateUsabilityTestRouter {
 
   async route (httpRequest) {
     try {
-      const { name, accessCode, prototypeLink, externalLink } = httpRequest.body
+      const { name, accessCode, prototypeLink, externalLink, userId } = httpRequest.body
       if (!name) {
         return HttpResponse.badRequest(new MissingParamError('name'))
       }
@@ -21,8 +21,11 @@ module.exports = class CreateUsabilityTestRouter {
       if (!externalLink) {
         return HttpResponse.badRequest(new MissingParamError('externalLink'))
       }
+      if (!userId) {
+        return HttpResponse.badRequest(new MissingParamError('userId'))
+      }
 
-      const usabilityTest = await this.createUseCase.create({ name, accessCode, prototypeLink, externalLink })
+      const usabilityTest = await this.createUseCase.create({ name, accessCode, prototypeLink, externalLink, userId })
 
       return HttpResponse.created({ usabilityTest })
     } catch (error) {

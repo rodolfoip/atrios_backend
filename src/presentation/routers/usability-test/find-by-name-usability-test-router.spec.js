@@ -17,7 +17,7 @@ const makeFindByNameUseCase = () => {
     }
   }
   const findByNameUseCaseSpy = new FindByNameUseCaseSpy()
-  findByNameUseCaseSpy.usabilityTest = new UsabilityTest('60dbc3b024e294424492b6f9', 'any_name', 'any_accessCode', 'any_prototypeLink', 'any_externalLink')
+  findByNameUseCaseSpy.usabilityTest = new UsabilityTest('60dbc3b024e294424492b6f9', 'any_name', 'any_accessCode', 'any_prototypeLink', 'any_externalLink', 'any_userId')
   return findByNameUseCaseSpy
 }
 

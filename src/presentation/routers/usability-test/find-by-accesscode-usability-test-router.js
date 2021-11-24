@@ -13,8 +13,8 @@ module.exports = class FindByAccessCodeUsabilityTestRouter {
         return HttpResponse.badRequest(new MissingParamError('accessCode'))
       }
 
-      const { _id, name, accessCode, prototypeLink, externalLink, tasks } = await this.findByAccessCodeUseCase.find(httpRequest.params.accessCode)
-      const usabilityTest = new UsabilityTest(_id, name, accessCode, prototypeLink, externalLink, tasks)
+      const { _id, name, accessCode, prototypeLink, externalLink, userId, tasks } = await this.findByAccessCodeUseCase.find(httpRequest.params.accessCode)
+      const usabilityTest = new UsabilityTest(_id, name, accessCode, prototypeLink, externalLink, userId, tasks)
       return HttpResponse.ok({ usabilityTest })
     } catch (error) {
       return HttpResponse.serverError()

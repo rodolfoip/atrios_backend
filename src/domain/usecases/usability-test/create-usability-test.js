@@ -6,7 +6,7 @@ module.exports = class CreteUseCase {
     this.usabilityTestRepository = usabilityTestRepository
   }
 
-  async create ({ name, accessCode, prototypeLink, externalLink }) {
+  async create ({ name, accessCode, prototypeLink, externalLink, userId }) {
     if (!name) {
       throw new MissingParamError('name')
     }
@@ -19,7 +19,10 @@ module.exports = class CreteUseCase {
     if (!externalLink) {
       throw new MissingParamError('externalLink')
     }
-    const usabilityTest = new UsabilityTest(null, name, accessCode, prototypeLink, externalLink)
+    if (!userId) {
+      throw new MissingParamError('userId')
+    }
+    const usabilityTest = new UsabilityTest(null, name, accessCode, prototypeLink, externalLink, userId)
     const newUsabilityTest = await this.usabilityTestRepository.persist(usabilityTest)
     return newUsabilityTest
   }

@@ -27,7 +27,8 @@ const makeUsabilityTestRepository = () => {
     name: 'any_test',
     accessCode: 'any_accessCode',
     prototypeLink: 'any_prototypeLink',
-    externalLink: 'any_externalLink'
+    externalLink: 'any_externalLink',
+    userId: 'any_userId'
   }
   return usabilityTestRepositorySpy
 }
@@ -83,7 +84,8 @@ describe('Create usability test', () => {
       name: 'any_test',
       accessCode: 'any_accessCode',
       prototypeLink: 'any_prototypeLink',
-      externalLink: 'any_externalLink'
+      externalLink: 'any_externalLink',
+      userId: 'any_userId'
     }
     await sut.create(fakeUsabilityTest)
     expect(usabilityTestRepositorySpy.usabilityTest).toEqual(fakeUsabilityTest)

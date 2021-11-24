@@ -60,7 +60,8 @@ describe('Usability test repository', () => {
       name: 'any_testname',
       accessCode: 'any_code',
       prototypeLink: 'any_link',
-      externalLink: 'any_externalLink'
+      externalLink: 'any_externalLink',
+      userId: 'userId'
     })
     expect(promise).rejects.toThrow(new MissingParamError('tasks'))
   })
@@ -72,6 +73,7 @@ describe('Usability test repository', () => {
       accessCode: 'any_accessCode',
       prototypeLink: 'any_prototypeLink',
       externalLink: 'any_externalLink',
+      userId: 'userId',
       tasks: []
     }
     const persistedUsabilityTest = await sut.persist(fakeUsabilityTest)
@@ -91,6 +93,7 @@ describe('Usability test repository', () => {
       accessCode: 'any_accessCode',
       prototypeLink: 'any_prototypeLink',
       externalLink: 'any_externalLink',
+      userId: 'userId',
       tasks: []
     }
     fakeUsabilityTest = await sut.persist(fakeUsabilityTest)
@@ -167,6 +170,7 @@ describe('Usability test repository', () => {
       accessCode: 'any_accessCode',
       prototypeLink: 'any_prototypeLink',
       externalLink: 'any_externalLink',
+      userId: 'userId',
       tasks: []
     }
     fakeUsabilityTest = await sut.persist(fakeUsabilityTest)
@@ -181,6 +185,7 @@ describe('Usability test repository', () => {
       accessCode: 'any_accessCode',
       prototypeLink: 'any_prototypeLink',
       externalLink: 'any_externalLink',
+      userId: 'userId',
       tasks: [
         {
           order: 1,

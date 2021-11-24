@@ -24,7 +24,8 @@ const makeCreateUseCase = () => {
     name: 'any_test',
     accessCode: 'any_accessCode',
     prototypeLink: 'any_prototypeLink',
-    externalLink: 'any_externalLink'
+    externalLink: 'any_externalLink',
+    userId: 'userId'
   }
   return createUseCaseSpy
 }
@@ -127,7 +128,8 @@ describe('Create Usability test router', () => {
         name: 'any_test',
         accessCode: 'any_accessCode',
         prototypeLink: 'any_prototypeLink',
-        externalLink: 'any_externalLink'
+        externalLink: 'any_externalLink',
+        userId: 'userId'
       }
     }
     const httpResponse = await sut.route(httpRequest)
@@ -143,7 +145,8 @@ describe('Create Usability test router', () => {
         name: 'any_test',
         accessCode: 'any_accessCode',
         prototypeLink: 'any_prototypeLink',
-        externalLink: 'any_externalLink'
+        externalLink: 'any_externalLink',
+        userId: 'userId'
       }
     }
     const httpResponse = await sut.route(httpRequest)
@@ -159,7 +162,8 @@ describe('Create Usability test router', () => {
         name: 'any_test',
         accessCode: 'any_accessCode',
         prototypeLink: 'any_prototypeLink',
-        externalLink: 'any_externalLink'
+        externalLink: 'any_externalLink',
+        userId: 'userId'
       }
     }
     const httpResponse = await sut.route(httpRequest)

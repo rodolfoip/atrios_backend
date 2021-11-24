@@ -16,7 +16,7 @@ const makeFindUseCase = () => {
   }
   const findUseCaseSpy = new FindUseCaseSpy()
   findUseCaseSpy.list = [
-    new UsabilityTest('60dbc3b024e294424492b6f9', 'any_name', 'any_accessCode', 'any_prototypeLink', 'any_externalLink')
+    new UsabilityTest('60dbc3b024e294424492b6f9', 'any_name', 'any_accessCode', 'any_prototypeLink', 'any_externalLink', 'any_userId')
   ]
   return findUseCaseSpy
 }

@@ -9,8 +9,8 @@ module.exports = class FindUsabilityTestRouter {
   async route (httpRequest) {
     try {
       const usabilityTests = await this.findUseCase.find()
-      const list = usabilityTests.map(({ _id, name, accessCode, prototypeLink, externalLink, tasks }) => {
-        return new UsabilityTest(_id, name, accessCode, prototypeLink, externalLink, tasks)
+      const list = usabilityTests.map(({ _id, name, accessCode, prototypeLink, externalLink, userId, tasks }) => {
+        return new UsabilityTest(_id, name, accessCode, prototypeLink, externalLink, userId, tasks)
       })
       return HttpResponse.ok({ list })
     } catch (error) {
