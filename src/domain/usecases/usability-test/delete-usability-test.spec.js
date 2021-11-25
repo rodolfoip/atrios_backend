@@ -23,15 +23,21 @@ const makeUsabilityTestRepository = () => {
 }
 
 describe('Delete Usecase', () => {
-  test('should return MissingParamError if no id is provided', () => {
+  test('should return MissingParamError if no userId is provided', () => {
     const { sut } = makeSut()
     const promise = sut.delete()
+    expect(promise).rejects.toThrow(new MissingParamError('userId'))
+  })
+
+  test('should return MissingParamError if no id is provided', () => {
+    const { sut } = makeSut()
+    const promise = sut.delete('any_userId')
     expect(promise).rejects.toThrow(new MissingParamError('id'))
   })
 
   test('should return true when call delete', async () => {
     const { sut, usabilityTestRepositorySpy } = makeSut()
-    await sut.delete('any_id')
+    await sut.delete('any_userId', 'any_id')
     expect(usabilityTestRepositorySpy.isDeleted).toBe(true)
   })
 })

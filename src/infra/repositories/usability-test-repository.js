@@ -29,15 +29,18 @@ module.exports = class UsabilityTestRepository {
     return usabilityTest.ops[0]
   }
 
-  async remove (id) {
+  async remove (userId, id) {
     let isDeleted
+    if (!userId) {
+      throw new MissingParamError('userId')
+    }
     if (!id) {
       throw new MissingParamError('id')
     }
 
     const usabilityTestModel = await MongoHelper.getCollection('usability_tests')
     try {
-      await usabilityTestModel.deleteOne({ _id: new ObjectID(id) })
+      await usabilityTestModel.deleteOne({ userId: userId, _id: new ObjectID(id) })
       isDeleted = true
     } catch (error) {
       isDeleted = false

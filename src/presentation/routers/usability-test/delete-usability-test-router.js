@@ -8,12 +8,15 @@ module.exports = class DeleteUsabilityTestRouter {
 
   async route (httpRequest) {
     try {
-      const id = httpRequest.body.id
+      const { userId, id } = httpRequest.body
+      if (!userId) {
+        return HttpResponse.badRequest(new MissingParamError('userId'))
+      }
       if (!id) {
         return HttpResponse.badRequest(new MissingParamError('id'))
       }
 
-      const isDeleted = await this.deleteUseCase.delete(id)
+      const isDeleted = await this.deleteUseCase.delete(userId, id)
       return HttpResponse.deleted({ isDeleted })
     } catch (error) {
       return HttpResponse.serverError()

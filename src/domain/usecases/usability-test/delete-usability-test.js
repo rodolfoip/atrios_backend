@@ -5,12 +5,15 @@ module.exports = class DeleteUseCase {
     this.usabilityTestRepository = usabilityTestRepository
   }
 
-  async delete (id) {
+  async delete (userId, id) {
+    if (!userId) {
+      throw new MissingParamError('userId')
+    }
     if (!id) {
       throw new MissingParamError('id')
     }
 
-    const isDeleted = await this.usabilityTestRepository.remove(id)
+    const isDeleted = await this.usabilityTestRepository.remove(userId, id)
     return isDeleted
   }
 }

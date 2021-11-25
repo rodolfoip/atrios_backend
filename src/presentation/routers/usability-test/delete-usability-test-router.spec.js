@@ -30,10 +30,21 @@ const makeDeleteUseCaseWithError = () => {
 }
 
 describe('Delete UsabilityTest Router', () => {
-  test('should return 400 if no id is provided', async () => {
+  test('should return 400 if no userId is provided', async () => {
     const { sut } = makeSut()
     const httpRequest = {
       body: {}
+    }
+    const httpResponse = await sut.route(httpRequest)
+    expect(httpResponse.statusCode).toBe(400)
+    expect(httpResponse.body.error).toBe(new MissingParamError('userId').message)
+  })
+  test('should return 400 if no id is provided', async () => {
+    const { sut } = makeSut()
+    const httpRequest = {
+      body: {
+        userId: 'any_userId'
+      }
     }
     const httpResponse = await sut.route(httpRequest)
     expect(httpResponse.statusCode).toBe(400)
@@ -58,6 +69,7 @@ describe('Delete UsabilityTest Router', () => {
     const { sut, deleteUseCaseSpy } = makeSut()
     const httpRequest = {
       body: {
+        userId: 'any_userId',
         id: 'any_id'
       }
     }
@@ -69,6 +81,7 @@ describe('Delete UsabilityTest Router', () => {
     const { sut, deleteUseCaseSpy } = makeSut()
     const httpRequest = {
       body: {
+        userId: 'any_userId',
         id: 'any_id'
       }
     }
@@ -81,6 +94,7 @@ describe('Delete UsabilityTest Router', () => {
     const sut = new DeleteUsabilityTestRouter()
     const httpRequest = {
       body: {
+        userId: 'any_userId',
         id: 'any_id'
       }
     }
@@ -94,6 +108,7 @@ describe('Delete UsabilityTest Router', () => {
     const sut = new DeleteUsabilityTestRouter({ deleteUseCase })
     const httpRequest = {
       body: {
+        userId: 'any_userId',
         id: 'any_id'
       }
     }

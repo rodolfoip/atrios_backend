@@ -42,13 +42,15 @@ describe('Usability Routes', () => {
       name: 'any_test',
       accessCode: 'any_accessCode',
       prototypeLink: 'any_prototypeLink',
-      externalLink: 'any_externalLink'
+      externalLink: 'any_externalLink',
+      userId: 'any_userId'
     })
     fakeUsabilityTest = fakeUsabilityTest.ops[0]
 
     await request(app)
       .delete('/api/usability-test')
       .send({
+        userId: fakeUsabilityTest.userId,
         id: fakeUsabilityTest._id
       })
       .expect(204)
