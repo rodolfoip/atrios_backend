@@ -23,6 +23,7 @@ describe('Task routes', () => {
       accessCode: 'any_accessCode',
       prototypeLink: 'any_prototypeLink',
       externalLink: 'any_externalLink',
+      userId: 'any_userId',
       tasks: []
     })
     fakeUsabilityTest = fakeUsabilityTest.ops[0]
@@ -30,6 +31,7 @@ describe('Task routes', () => {
     await request(app)
       .post('/api/usability-test/task')
       .send({
+        userId: fakeUsabilityTest.userId,
         testId: fakeUsabilityTest._id,
         order: 1,
         description: 'any_description'
@@ -53,6 +55,7 @@ describe('Task routes', () => {
       accessCode: 'any_accessCode',
       prototypeLink: 'any_prototypeLink',
       externalLink: 'any_externalLink',
+      userId: 'any_userId',
       tasks: [
         {
           order: 1,
@@ -65,6 +68,7 @@ describe('Task routes', () => {
     await request(app)
       .put('/api/usability-test/task')
       .send({
+        userId: fakeUsabilityTest.userId,
         testId: fakeUsabilityTest._id,
         order: 1,
         description: 'other_description'
@@ -88,6 +92,7 @@ describe('Task routes', () => {
       accessCode: 'any_accessCode',
       prototypeLink: 'any_prototypeLink',
       externalLink: 'any_externalLink',
+      userId: 'any_userId',
       tasks: [
         {
           order: 1,
@@ -100,6 +105,7 @@ describe('Task routes', () => {
     await request(app)
       .delete('/api/usability-test/task')
       .send({
+        userId: fakeUsabilityTest.userId,
         testId: fakeUsabilityTest._id,
         order: 1
       })

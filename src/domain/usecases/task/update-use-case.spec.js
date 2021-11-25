@@ -14,7 +14,8 @@ const makeSut = () => {
 
 const makeUsabilityTestRepository = () => {
   class UsabilityTestRepositorySpy {
-    async update ({ testId, order, description, sus, affectGrid, tasks }) {
+    async update ({ userId, testId, order, description, sus, affectGrid, tasks }) {
+      this.userId = userId
       this.testId = testId
       this.order = order
       this.description = description
@@ -24,7 +25,8 @@ const makeUsabilityTestRepository = () => {
       return this.task
     }
 
-    async findById (testId) {
+    async findById (userId, testId) {
+      this.userId = userId
       this.testId = testId
       return this.usabilityTest
     }
@@ -35,6 +37,7 @@ const makeUsabilityTestRepository = () => {
     accessCode: 'any_accessCode',
     prototypeLink: 'any_prototypeLink',
     externalLink: 'any_externalLink',
+    userId: 'any_userId',
     tasks: [
       {
         testId: 'any_id',
@@ -57,21 +60,30 @@ const makeUsabilityTestRepositoryWithError = () => {
 }
 
 describe('Update task', () => {
-  test('should return null if no testId is provided', () => {
+  test('should return null if no userId is provided', () => {
     const { sut } = makeSut()
     const promise = sut.update({})
+    expect(promise).rejects.toThrow(new MissingParamError('userId'))
+  })
+
+  test('should return null if no testId is provided', () => {
+    const { sut } = makeSut()
+    const promise = sut.update({
+      userId: 'any_userId'
+    })
     expect(promise).rejects.toThrow(new MissingParamError('testId'))
   })
 
   test('should return null if no order is provided', () => {
     const { sut } = makeSut()
     const promise = sut.update({
+      userId: 'any_userId',
       testId: 'any_id'
     })
     expect(promise).rejects.toThrow(new MissingParamError('order'))
   })
 
-  test('should return tasks when call update', async () => {
+  test('should return tasks when call update - 1', async () => {
     const { sut, usabilityTestRepositorySpy } = makeSut()
     const fakeTask = {
       order: 1,
@@ -80,13 +92,14 @@ describe('Update task', () => {
       affectGrid: 45
     }
     await sut.update({
+      userId: 'any_userId',
       testId: 'any_id',
       ...fakeTask
     })
     expect(usabilityTestRepositorySpy.usabilityTest.tasks).toMatchObject([fakeTask])
   })
 
-  test('should return tasks when call update', async () => {
+  test('should return tasks when call update - 1', async () => {
     const { sut, usabilityTestRepositorySpy } = makeSut()
     usabilityTestRepositorySpy.usabilityTest.tasks[0].sus = 20
     const fakeTask = {
@@ -94,6 +107,7 @@ describe('Update task', () => {
       affectGrid: 45
     }
     await sut.update({
+      userId: 'any_userId',
       testId: 'any_id',
       ...fakeTask
     })
@@ -108,6 +122,7 @@ describe('Update task', () => {
       affectGrid: 45
     }
     await sut.update({
+      userId: 'any_userId',
       testId: 'any_id',
       ...fakeTask
     })

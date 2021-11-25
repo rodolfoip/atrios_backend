@@ -5,7 +5,10 @@ module.exports = class DeleteUseCase {
     this.usabilityTestRepository = usabilityTestRepository
   }
 
-  async delete ({ testId, order }) {
+  async delete ({ userId, testId, order }) {
+    if (!userId) {
+      throw new MissingParamError('userId')
+    }
     if (!testId) {
       throw new MissingParamError('testId')
     }
@@ -13,7 +16,7 @@ module.exports = class DeleteUseCase {
       throw new MissingParamError('order')
     }
 
-    const usabilityTest = await this.usabilityTestRepository.findById(testId)
+    const usabilityTest = await this.usabilityTestRepository.findById(userId, testId)
     usabilityTest.tasks = usabilityTest.tasks.filter((task, index) => {
       let newTask
       if (task.order !== order) {

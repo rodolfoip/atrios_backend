@@ -10,7 +10,8 @@ const makeSut = () => {
 
 const makeCreateUseCase = () => {
   class DeleteUseCaseSpy {
-    async delete ({ testId, order }) {
+    async delete ({ userId, testId, order }) {
+      this.userId = userId
       this.testId = testId
       this.order = order
       return this.task
@@ -19,6 +20,7 @@ const makeCreateUseCase = () => {
 
   const deleteUseCaseSpy = new DeleteUseCaseSpy()
   deleteUseCaseSpy.task = {
+    userId: 'any_userId',
     testId: 'any_id',
     order: 'any_order'
   }
@@ -36,10 +38,22 @@ const makeCreateUseCaseWithError = () => {
 }
 
 describe('Delete task router', () => {
-  test('should return 400 if no idTest is provided', async () => {
+  test('should return 400 if no userId is provided', async () => {
     const { sut } = makeSut()
     const httpRequest = {
       body: {}
+    }
+    const httpResponse = await sut.route(httpRequest)
+    expect(httpResponse.statusCode).toBe(400)
+    expect(httpResponse.body.error).toBe(new MissingParamError('userId').message)
+  })
+
+  test('should return 400 if no idTest is provided', async () => {
+    const { sut } = makeSut()
+    const httpRequest = {
+      body: {
+        userId: 'any_userId'
+      }
     }
     const httpResponse = await sut.route(httpRequest)
     expect(httpResponse.statusCode).toBe(400)
@@ -50,6 +64,7 @@ describe('Delete task router', () => {
     const { sut } = makeSut()
     const httpRequest = {
       body: {
+        userId: 'any_userId',
         testId: 'any_id'
       }
     }
@@ -69,6 +84,7 @@ describe('Delete task router', () => {
     const { sut, deleteUseCaseSpy } = makeSut()
     const httpRequest = {
       body: {
+        userId: 'any_userId',
         testId: 'any_id',
         order: 'any_order'
       }
@@ -83,6 +99,7 @@ describe('Delete task router', () => {
     const { sut, deleteUseCaseSpy } = makeSut()
     const httpRequest = {
       body: {
+        userId: 'any_userId',
         testId: 'any_id',
         order: 'any_order'
       }
@@ -97,6 +114,7 @@ describe('Delete task router', () => {
     const sut = new DeleteTaskRouter()
     const httpRequest = {
       body: {
+        userId: 'any_userId',
         testId: 'any_id',
         order: 'any_order'
       }
@@ -111,6 +129,7 @@ describe('Delete task router', () => {
     const sut = new DeleteTaskRouter({ createUseCase })
     const httpRequest = {
       body: {
+        userId: 'any_userId',
         testId: 'any_id',
         order: 'any_order'
       }

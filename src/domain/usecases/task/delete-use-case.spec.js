@@ -14,7 +14,8 @@ const makeSut = () => {
 
 const makeUsabilityTestRepository = () => {
   class UsabilityTestRepositorySpy {
-    async update ({ testId, order, description, tasks }) {
+    async update ({ userId, testId, order, description, tasks }) {
+      this.userId = userId
       this.testId = testId
       this.order = order
       this.description = description
@@ -22,7 +23,8 @@ const makeUsabilityTestRepository = () => {
       return this.task
     }
 
-    async findById (testId) {
+    async findById (userId, testId) {
+      this.userId = userId
       this.testId = testId
       return this.usabilityTest
     }
@@ -33,6 +35,7 @@ const makeUsabilityTestRepository = () => {
     accessCode: 'any_accessCode',
     prototypeLink: 'any_prototypeLink',
     externalLink: 'any_externalLink',
+    userId: 'any_userId',
     tasks: [
       {
         testId: 'any_id',
@@ -59,16 +62,25 @@ const makeUsabilityTestRepositoryWithError = () => {
   return new UsabilityTestRepositorySpy()
 }
 
-describe('Create usability test', () => {
-  test('should return MissingParamError if no testId is provided', () => {
+describe('Delete usability test', () => {
+  test('should return MissingParamError if no userId is provided', () => {
     const { sut } = makeSut()
     const promise = sut.delete({})
+    expect(promise).rejects.toThrow(new MissingParamError('userId'))
+  })
+
+  test('should return MissingParamError if no testId is provided', () => {
+    const { sut } = makeSut()
+    const promise = sut.delete({
+      userId: 'any_userId'
+    })
     expect(promise).rejects.toThrow(new MissingParamError('testId'))
   })
 
   test('should return MissingParamError if no order is provided', () => {
     const { sut } = makeSut()
     const promise = sut.delete({
+      userId: 'any_userId',
       testId: 'any_id'
     })
     expect(promise).rejects.toThrow(new MissingParamError('order'))
@@ -77,6 +89,7 @@ describe('Create usability test', () => {
   test('should return tasks when call delete', async () => {
     const { sut, usabilityTestRepositorySpy } = makeSut()
     const fakeTask = {
+      userId: 'any_userId',
       testId: 'any_id',
       order: 1
     }
@@ -87,6 +100,7 @@ describe('Create usability test', () => {
   test('should throw if invalid dependencies are provided', async () => {
     const sut = new DeleteUseCase()
     const fakeUsabilityTest = {
+      userId: 'any_userId',
       testId: 'any_id',
       order: 1
     }
@@ -99,6 +113,7 @@ describe('Create usability test', () => {
     const usabilityTestRepository = makeUsabilityTestRepositoryWithError()
     const sut = new DeleteUseCase({ usabilityTestRepository })
     const fakeUsabilityTest = {
+      userId: 'any_userId',
       testId: 'any_id',
       order: 1
     }

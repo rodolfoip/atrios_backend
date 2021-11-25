@@ -49,15 +49,24 @@ const makeUsabilityTestRepositoryWithError = () => {
 }
 
 describe('Create usability test', () => {
-  test('should return null if no testId is provided', () => {
+  test('should return null if no userId is provided', () => {
     const { sut } = makeSut()
     const promise = sut.create({})
+    expect(promise).rejects.toThrow(new MissingParamError('userId'))
+  })
+
+  test('should return null if no testId is provided', () => {
+    const { sut } = makeSut()
+    const promise = sut.create({
+      userId: 'any_userId'
+    })
     expect(promise).rejects.toThrow(new MissingParamError('testId'))
   })
 
   test('should return null if no order is provided', () => {
     const { sut } = makeSut()
     const promise = sut.create({
+      userId: 'any_userId',
       testId: 'any_id'
     })
     expect(promise).rejects.toThrow(new MissingParamError('order'))
@@ -66,6 +75,7 @@ describe('Create usability test', () => {
   test('should return null if no description is provided', () => {
     const { sut } = makeSut()
     const promise = sut.create({
+      userId: 'any_userId',
       testId: 'any_id',
       order: 1
     })
@@ -79,6 +89,7 @@ describe('Create usability test', () => {
       description: 'any_description'
     }
     await sut.create({
+      userId: 'any_userId',
       testId: 'any_id',
       ...fakeUsabilityTest
     })

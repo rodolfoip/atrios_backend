@@ -8,7 +8,10 @@ module.exports = class DeleteTaskRouter {
 
   async route (httpRequest) {
     try {
-      const { testId, order } = httpRequest.body
+      const { userId, testId, order } = httpRequest.body
+      if (!userId) {
+        return HttpResponse.badRequest(new MissingParamError('userId'))
+      }
       if (!testId) {
         return HttpResponse.badRequest(new MissingParamError('testId'))
       }
@@ -16,7 +19,7 @@ module.exports = class DeleteTaskRouter {
         return HttpResponse.badRequest(new MissingParamError('order'))
       }
 
-      const task = await this.deleteUseCase.delete({ testId, order })
+      const task = await this.deleteUseCase.delete({ userId, testId, order })
 
       return HttpResponse.deleted({ task })
     } catch (error) {

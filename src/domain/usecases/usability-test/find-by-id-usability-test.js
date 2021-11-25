@@ -5,11 +5,14 @@ module.exports = class FindByIdUseCase {
     this.usabilityTestRepository = usabilityTestRepository
   }
 
-  async find (id) {
+  async find (userId, id) {
+    if (!userId) {
+      throw new MissingParamError('userId')
+    }
     if (!id) {
       throw new MissingParamError('id')
     }
 
-    return await this.usabilityTestRepository.findById(id)
+    return await this.usabilityTestRepository.findById(userId, id)
   }
 }

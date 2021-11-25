@@ -240,10 +240,10 @@ describe('Usability test repository', () => {
     expect(usabilityTest).toEqual(fakeUsabilityTest)
   })
 
-  test('should throw if no id is provided', () => {
+  test('should throw if no userId is provided', () => {
     const sut = makeSut()
     const promise = sut.findById()
-    expect(promise).rejects.toThrow(new MissingParamError('_id'))
+    expect(promise).rejects.toThrow(new MissingParamError('userId'))
   })
 
   test('should return usability test when findById is called', async () => {
@@ -252,10 +252,11 @@ describe('Usability test repository', () => {
       name: 'any_test',
       accessCode: 'any_accessCode',
       prototypeLink: 'any_prototypeLink',
-      externalLink: 'any_externalLink'
+      externalLink: 'any_externalLink',
+      userId: 'any_userId'
     }
     const persistedUsabilityTest = await usabilityTestModel.insertOne(fakeUsabilityTest)
-    const usabilityTest = await sut.findById(persistedUsabilityTest.ops[0]._id)
+    const usabilityTest = await sut.findById(persistedUsabilityTest.ops[0].userId, persistedUsabilityTest.ops[0]._id)
     expect(usabilityTest).toEqual(fakeUsabilityTest)
   })
 })
