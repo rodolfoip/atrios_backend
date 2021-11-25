@@ -9,11 +9,14 @@ module.exports = class FindByNameUsabilityTestRouter {
 
   async route (httpRequest) {
     try {
-      if (!httpRequest.params.name) {
+      if (!httpRequest.body.userId) {
+        return HttpResponse.badRequest(new MissingParamError('userId'))
+      }
+      if (!httpRequest.body.name) {
         return HttpResponse.badRequest(new MissingParamError('name'))
       }
 
-      const { _id, name, accessCode, prototypeLink, externalLink, userId, tasks } = await this.findByNameUseCase.find(httpRequest.params.name)
+      const { _id, name, accessCode, prototypeLink, externalLink, userId, tasks } = await this.findByNameUseCase.find(httpRequest.body.userId, httpRequest.body.name)
       const usabilityTest = new UsabilityTest(_id, name, accessCode, prototypeLink, externalLink, userId, tasks)
       return HttpResponse.ok({ usabilityTest })
     } catch (error) {

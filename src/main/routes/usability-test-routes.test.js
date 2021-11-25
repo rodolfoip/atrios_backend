@@ -65,7 +65,7 @@ describe('Usability Routes', () => {
       userId: 'any_userId'
     })
     await request(app)
-      .get('/api/usability-test/any_userId')
+      .get('/api/usability-test/all/any_userId')
       .expect(200)
   })
 
@@ -84,7 +84,7 @@ describe('Usability Routes', () => {
       .expect(200)
   })
 
-  test('should return 200 when valid params are provided', async () => {
+  test('should return 200 when valid params are provided - get', async () => {
     await usabilityTestModel.insertOne({
       name: 'any_test',
       accessCode: 'any_accessCode',
@@ -93,7 +93,8 @@ describe('Usability Routes', () => {
       userId: 'any_userId'
     })
     await request(app)
-      .get('/api/usability-test/name/any_test')
+      .get('/api/usability-test/name')
+      .send({ userId: 'any_userId', name: 'any_test' })
       .expect(200)
   })
 

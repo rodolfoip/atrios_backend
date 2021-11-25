@@ -25,20 +25,20 @@ const makeUsabilityTestRepository = () => {
 describe('Describe Usa Case', () => {
   test('should return MissingParamError if no name is provided', () => {
     const { sut } = makeSut()
-    const promise = sut.find()
+    const promise = sut.find('any_userId')
     expect(promise).rejects.toThrow(new MissingParamError('name'))
   })
 
   test('should return null if no result has founded', async () => {
     const { sut, usabilityTestRepositorySpy } = makeSut()
     usabilityTestRepositorySpy.usabilityTest = null
-    const usabilityTest = await sut.find({ name: 'any_name' })
+    const usabilityTest = await sut.find('any_userId', 'any_name')
     expect(usabilityTest).toBeNull()
   })
 
   test('should return usabilityTest when valid params are provided', async () => {
     const { sut, usabilityTestRepositorySpy } = makeSut()
-    const usabilityTest = await sut.find({ name: 'any_name' })
+    const usabilityTest = await sut.find('any_userId', 'any_name')
     expect(usabilityTest).toEqual(usabilityTestRepositorySpy.usabilityTest)
   })
 })
