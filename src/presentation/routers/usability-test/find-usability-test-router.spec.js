@@ -33,13 +33,23 @@ const makeFindUseCaseWithError = () => {
 describe('Find UsabilityTest Router', () => {
   test('should return 200 when find has called', async () => {
     const { sut } = makeSut()
-    const httpResponse = await sut.route()
+    const httpRequest = {
+      params: {
+        userId: 'any_userId'
+      }
+    }
+    const httpResponse = await sut.route(httpRequest)
     expect(httpResponse.statusCode).toBe(200)
   })
 
   test('should return usability test list', async () => {
     const { sut, findUseCaseSpy } = makeSut()
-    const httpResponse = await sut.route()
+    const httpRequest = {
+      params: {
+        userId: 'any_userId'
+      }
+    }
+    const httpResponse = await sut.route(httpRequest)
     expect(httpResponse.body.list).toEqual(findUseCaseSpy.list)
   })
 

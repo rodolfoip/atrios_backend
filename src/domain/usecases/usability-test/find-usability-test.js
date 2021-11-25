@@ -3,7 +3,7 @@ module.exports = class FindUseCase {
     this.usabilityTestRepository = usabilityTestRepository
   }
 
-  async find () {
-    return await this.usabilityTestRepository.find()
+  async find (userId) {
+    return await this.usabilityTestRepository.find(userId)
   }
 }

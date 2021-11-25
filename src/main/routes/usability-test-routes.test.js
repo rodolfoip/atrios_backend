@@ -63,7 +63,7 @@ describe('Usability Routes', () => {
       userId: 'any_userId'
     })
     await request(app)
-      .get('/api/usability-test')
+      .get('/api/usability-test/any_userId')
       .expect(200)
   })
 

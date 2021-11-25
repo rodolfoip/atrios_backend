@@ -45,10 +45,10 @@ module.exports = class UsabilityTestRepository {
     return isDeleted
   }
 
-  async find () {
+  async find (userId) {
     let list = []
     const usabilityTestModel = await MongoHelper.getCollection('usability_tests')
-    list = await usabilityTestModel.find().toArray()
+    list = await usabilityTestModel.find({ userId: userId }).toArray()
     return list
   }
 
