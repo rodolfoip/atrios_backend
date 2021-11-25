@@ -14,12 +14,13 @@ const makeSut = () => {
 
 const makeUpdateUseCaseSpy = () => {
   class UpdateUseCase {
-    async update ({ _id, name, accessCode, prototypeLink, externalLink }) {
+    async update ({ _id, name, accessCode, prototypeLink, externalLink, userId }) {
       this._id = _id
       this.name = name
       this.accessCode = accessCode
       this.prototypeLink = prototypeLink
       this.externalLink = externalLink
+      this.userId = userId
       return this.usabilityTest
     }
   }
@@ -29,7 +30,8 @@ const makeUpdateUseCaseSpy = () => {
     name: 'any_test',
     accessCode: 'any_accessCode',
     prototypeLink: 'any_prototypeLink',
-    externalLink: 'any_externalLink'
+    externalLink: 'any_externalLink',
+    userId: 'any_userId'
   }
   return updateUseCaseSpy
 }
@@ -118,7 +120,8 @@ describe('Update usability test router', () => {
         name: 'any_test',
         accessCode: 'any_accessCode',
         prototypeLink: 'any_prototypeLink',
-        externalLink: 'any_externalLink'
+        externalLink: 'any_externalLink',
+        userId: 'any_userId'
       }
     }
     await sut.route(httpRequest)
@@ -137,7 +140,8 @@ describe('Update usability test router', () => {
         name: 'any_test',
         accessCode: 'any_accessCode',
         prototypeLink: 'any_prototypeLink',
-        externalLink: 'any_externalLink'
+        externalLink: 'any_externalLink',
+        userId: 'any_userId'
       }
     }
     const httpResponse = await sut.route(httpRequest)
@@ -154,7 +158,8 @@ describe('Update usability test router', () => {
         name: 'any_test',
         accessCode: 'any_accessCode',
         prototypeLink: 'any_prototypeLink',
-        externalLink: 'any_externalLink'
+        externalLink: 'any_externalLink',
+        userId: 'any_userId'
       }
     }
     const httpResponse = await sut.route(httpRequest)

@@ -6,7 +6,7 @@ module.exports = class UpdateUseCase {
     this.usabilityTestRepository = usabilityTestRepository
   }
 
-  async update ({ _id, name, prototypeLink, externalLink, tasks, quantity }) {
+  async update ({ _id, name, prototypeLink, externalLink, userId, tasks, quantity }) {
     if (!_id) {
       throw new MissingParamError('id')
     }
@@ -20,7 +20,7 @@ module.exports = class UpdateUseCase {
       throw new MissingParamError('externalLink')
     }
 
-    const usabilityTest = new UsabilityTest(_id, name, null, prototypeLink, externalLink, tasks, quantity)
+    const usabilityTest = new UsabilityTest(_id, name, null, prototypeLink, externalLink, userId, tasks, quantity)
     const updatedUsabilityTest = await this.usabilityTestRepository.update(usabilityTest)
     return updatedUsabilityTest
   }
