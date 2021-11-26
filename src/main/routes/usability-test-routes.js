@@ -10,7 +10,7 @@ const UpdateUserRouterComposer = require('../composers/update-usability-test.com
 module.exports = router => {
   router.post('/usability-test', (adapt(CreateUsabilityTestComposer.compose())))
   router.get('/usability-test/all/:userId', (adapt(FindUserRouterComposer.compose())))
-  router.get('/usability-test/id', (adapt(FindByIdRouterComposer.compose())))
+  router.post('/usability-test/id', (adapt(FindByIdRouterComposer.compose())))
   router.get('/usability-test/name', (adapt(FindByNameRouterComposer.compose())))
   router.get('/usability-test/accesscode/:accessCode', (adapt(FindByAccessCodeRouterComposer.compose())))
   router.put('/usability-test', (adapt(UpdateUserRouterComposer.compose())))
