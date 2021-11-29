@@ -60,6 +60,7 @@ describe('Find UsabilityTest Router', () => {
       }
     }
     const httpResponse = await sut.route(httpRequest)
+    delete findByAccessCodeUseCaseSpy.usabilityTest.userId
     expect(httpResponse.body.usabilityTest).toEqual(findByAccessCodeUseCaseSpy.usabilityTest)
   })
 

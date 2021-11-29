@@ -15,6 +15,7 @@ module.exports = class FindByAccessCodeUsabilityTestRouter {
 
       const { _id, name, accessCode, prototypeLink, externalLink, userId, tasks } = await this.findByAccessCodeUseCase.find(httpRequest.params.accessCode)
       const usabilityTest = new UsabilityTest(_id, name, accessCode, prototypeLink, externalLink, userId, tasks)
+      delete usabilityTest.userId
       return HttpResponse.ok({ usabilityTest })
     } catch (error) {
       return HttpResponse.serverError()
