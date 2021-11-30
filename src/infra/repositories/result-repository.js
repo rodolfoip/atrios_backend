@@ -17,7 +17,7 @@ module.exports = class UsabilityTestRepository {
     if (typeof aborted !== 'boolean') {
       throw new MissingParamError('aborted')
     }
-    if (!clicks) {
+    if (typeof clicks !== 'number') {
       throw new MissingParamError('clicks')
     }
 
