@@ -13,8 +13,8 @@ module.exports = class CreateResultRouter {
         return HttpResponse.badRequest(new MissingParamError('id'))
       }
 
-      const { _id, testId, orderTask, timeTask, aborted, clicks, sus } = await this.findByIdUseCase.findById(httpRequest.params.id)
-      const result = new Result(_id, testId, orderTask, timeTask, aborted, clicks, sus)
+      const { _id, testId, tasks, sus, affectGrid } = await this.findByIdUseCase.findById(httpRequest.params.id)
+      const result = new Result(_id, testId, tasks, sus, affectGrid)
       return HttpResponse.ok({ result })
     } catch (error) {
       return HttpResponse.serverError()
