@@ -1,14 +1,13 @@
 const { MissingParamError } = require('../../../utils/errors')
-const Result = require('../../models/result')
 
-module.exports = class CreteUseCase {
+module.exports = class AddTaskUseCase {
   constructor ({ resultRepository } = {}) {
     this.resultRepository = resultRepository
   }
 
-  async create ({ testId, orderTask, timeTask, aborted }) {
-    if (!testId) {
-      throw new MissingParamError('testId')
+  async addTask ({ _id, orderTask, timeTask, aborted }) {
+    if (!_id) {
+      throw new MissingParamError('_id')
     }
     if (!orderTask) {
       throw new MissingParamError('orderTask')
@@ -20,15 +19,7 @@ module.exports = class CreteUseCase {
       throw new MissingParamError('aborted')
     }
 
-    const tasks = [{
-      order: orderTask,
-      time: timeTask,
-      aborted: aborted
-    }]
-
-    const result = new Result(null, testId, tasks)
-
-    const newResult = await this.resultRepository.persist(result)
+    const newResult = await this.resultRepository.addTask({ _id, orderTask, timeTask, aborted })
     return newResult
   }
 }

@@ -83,4 +83,40 @@ module.exports = class UsabilityTestRepository {
     )
     return result.value
   }
+
+  async addTask (resultTestEntity) {
+    const { _id, orderTask, timeTask, aborted } = resultTestEntity
+    if (!_id) {
+      throw new MissingParamError('_id')
+    }
+    if (!orderTask) {
+      throw new MissingParamError('orderTask')
+    }
+    if (!timeTask.length) {
+      throw new MissingParamError('timeTask')
+    }
+    if (typeof aborted !== 'boolean') {
+      throw new MissingParamError('aborted')
+    }
+
+    const resultTestModel = await MongoHelper.getCollection('result_tests')
+    const result = await resultTestModel.findOneAndUpdate(
+      {
+        _id: new ObjectID(_id)
+      },
+      {
+        $push: {
+          tasks: {
+            orderTask,
+            timeTask,
+            aborted
+          }
+        }
+      },
+      {
+        returnDocument: 'after'
+      }
+    )
+    return result.value
+  }
 }
