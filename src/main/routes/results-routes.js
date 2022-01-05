@@ -8,7 +8,7 @@ const AddTaskResultComposer = require('../composers/add-task-result.composer')
 module.exports = router => {
   router.post('/result', (adapt(AddResultComposer.compose())))
   router.get('/result/:id', (adapt(FindByIdRouterComposer.compose())))
-  router.get('/result/:testId', (adapt(FindByTestIdRouterComposer.compose())))
+  router.get('/result/test/:testId', (adapt(FindByTestIdRouterComposer.compose())))
   router.put('/result', (adapt(UpdateResultComposer.compose())))
   router.put('/add-result', (adapt(AddTaskResultComposer.compose())))
 }
