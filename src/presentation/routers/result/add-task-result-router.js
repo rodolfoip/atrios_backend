@@ -18,7 +18,7 @@ module.exports = class CreateResultRouter {
       if (!timeTask) {
         return HttpResponse.badRequest(new MissingParamError('timeTask'))
       }
-      if (!aborted) {
+      if (typeof aborted !== 'boolean') {
         return HttpResponse.badRequest(new MissingParamError('aborted'))
       }
 
