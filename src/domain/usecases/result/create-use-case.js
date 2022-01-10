@@ -21,8 +21,8 @@ module.exports = class CreteUseCase {
     }
 
     const tasks = [{
-      order: orderTask,
-      time: timeTask,
+      orderTask: orderTask,
+      timeTask: timeTask,
       aborted: aborted
     }]
 
