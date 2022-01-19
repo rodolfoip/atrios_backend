@@ -21,6 +21,10 @@ const makeUsabilityTestRepository = () => {
       this.externalLink = externalLink
       return this.user
     }
+
+    async findByAccessCode (accessCode) {
+      return null
+    }
   }
   const usabilityTestRepositorySpy = new UsabilityTestRepositorySpy()
   usabilityTestRepositorySpy.usabilityTest = {

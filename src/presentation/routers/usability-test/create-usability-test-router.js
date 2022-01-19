@@ -29,7 +29,7 @@ module.exports = class CreateUsabilityTestRouter {
 
       return HttpResponse.created({ usabilityTest })
     } catch (error) {
-      return HttpResponse.serverError()
+      return HttpResponse.serverError(error)
     }
   }
 }

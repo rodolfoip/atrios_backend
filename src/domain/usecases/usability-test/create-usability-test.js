@@ -1,4 +1,4 @@
-const { MissingParamError } = require('../../../utils/errors')
+const { MissingParamError, ExistentParamError } = require('../../../utils/errors')
 const UsabilityTest = require('../../models/usability-test')
 
 module.exports = class CreteUseCase {
@@ -21,6 +21,9 @@ module.exports = class CreteUseCase {
     }
     if (!userId) {
       throw new MissingParamError('userId')
+    }
+    if (await this.usabilityTestRepository.findByAccessCode(accessCode)) {
+      throw new ExistentParamError('accessCode')
     }
     const usabilityTest = new UsabilityTest(null, name, accessCode, prototypeLink, externalLink, userId)
     const newUsabilityTest = await this.usabilityTestRepository.persist(usabilityTest)
