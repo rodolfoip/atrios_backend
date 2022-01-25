@@ -4,7 +4,8 @@ const CreateUsabilityTestRouter = require('./create-usability-test-router')
 
 const makeSut = () => {
   const createUseCaseSpy = makeCreateUseCase()
-  const sut = new CreateUsabilityTestRouter({ createUseCase: createUseCaseSpy })
+  const findByAccessCodeUseCaseSpy = makeFindByAccessCodeUseCase()
+  const sut = new CreateUsabilityTestRouter({ createUseCase: createUseCaseSpy, findByAccessCodeUseCase: findByAccessCodeUseCaseSpy })
   return { sut, createUseCaseSpy }
 }
 
@@ -28,6 +29,16 @@ const makeCreateUseCase = () => {
     userId: 'userId'
   }
   return createUseCaseSpy
+}
+
+const makeFindByAccessCodeUseCase = () => {
+  class FindByAccessCodeUseCaseSpy {
+    async find (accessCode) {
+      return null
+    }
+  }
+
+  return new FindByAccessCodeUseCaseSpy()
 }
 
 const makeCreateUseCaseWithError = () => {

@@ -1,9 +1,10 @@
-const { MissingParamError } = require('../../../utils/errors')
+const { MissingParamError, ExistentParamError } = require('../../../utils/errors')
 const HttpResponse = require('../../helpers/http-response')
 
 module.exports = class CreateUsabilityTestRouter {
-  constructor ({ createUseCase } = {}) {
+  constructor ({ createUseCase, findByAccessCodeUseCase } = {}) {
     this.createUseCase = createUseCase
+    this.findByAccessCodeUseCase = findByAccessCodeUseCase
   }
 
   async route (httpRequest) {
@@ -23,6 +24,9 @@ module.exports = class CreateUsabilityTestRouter {
       }
       if (!userId) {
         return HttpResponse.badRequest(new MissingParamError('userId'))
+      }
+      if (await this.findByAccessCodeUseCase.find(accessCode)) {
+        return HttpResponse.conflict(new ExistentParamError('accessCode'))
       }
 
       const usabilityTest = await this.createUseCase.create({ name, accessCode, prototypeLink, externalLink, userId })
