@@ -5,6 +5,7 @@
   "main": "src/main/index.js",
   "scripts": {
     "start": "nodemon src/main/index.js",
+    "build": "node src/main/index.js",
     "prepare": "husky install",
     "precommit": "lint-staged",
     "test": "jest --noStackTrace --runInBand --colors",
