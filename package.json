@@ -8,7 +8,8 @@
     "npm": "6.x"
   },
   "scripts": {
-    "start": "nodemon src/main/index.js",
+    "dev": "nodemon src/main/index.js",
+    "start": "node src/main/index.js",
     "build": "node src/main/index.js",
     "prepare": "husky install",
     "precommit": "lint-staged",
