@@ -3,6 +3,10 @@
   "version": "1.0.0",
   "description": "",
   "main": "src/main/index.js",
+  "engines": {
+    "node": "14.x",
+    "npm": "6.x"
+  },
   "scripts": {
     "start": "nodemon src/main/index.js",
     "build": "node src/main/index.js",
