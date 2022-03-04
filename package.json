@@ -10,7 +10,6 @@
   "scripts": {
     "dev": "nodemon src/main/index.js",
     "start": "node src/main/index.js",
-    "build": "node src/main/index.js",
     "precommit": "lint-staged",
     "test": "jest --noStackTrace --runInBand --colors",
     "test:staged": "npm test -- --findRelatedTests --silent",
