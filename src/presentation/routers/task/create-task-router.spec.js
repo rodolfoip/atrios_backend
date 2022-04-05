@@ -4,8 +4,9 @@ const { CreateTaskRouter } = require('../task')
 
 const makeSut = () => {
   const createUseCaseSpy = makeCreateUseCase()
-  const sut = new CreateTaskRouter({ createUseCase: createUseCaseSpy })
-  return { sut, createUseCaseSpy }
+  const findByOrderUseCaseSpy = makeFindByOrderUseCase()
+  const sut = new CreateTaskRouter({ createUseCase: createUseCaseSpy, findByOrderUseCase: findByOrderUseCaseSpy })
+  return { sut, createUseCaseSpy, findByOrderUseCaseSpy }
 }
 
 const makeCreateUseCase = () => {
@@ -37,6 +38,15 @@ const makeCreateUseCaseWithError = () => {
   }
 
   return new CreateUseCaseSpy()
+}
+
+const makeFindByOrderUseCase = () => {
+  class FindByOrderUseCaseSpy {
+    async find() {
+      return false;
+    }
+  }
+  return new FindByOrderUseCaseSpy();
 }
 
 describe('Create task router', () => {
