@@ -1,9 +1,10 @@
-const { MissingParamError } = require('../../../utils/errors')
+const { MissingParamError, ExistentParamError } = require('../../../utils/errors')
 const HttpResponse = require('../../helpers/http-response')
 
 module.exports = class CreateTaskRouter {
-  constructor ({ createUseCase } = {}) {
+  constructor ({ createUseCase, findByOrderUseCase } = {}) {
     this.createUseCase = createUseCase
+    this.findByOrderUseCase = findByOrderUseCase
   }
 
   async route (httpRequest) {
@@ -21,12 +22,15 @@ module.exports = class CreateTaskRouter {
       if (!description) {
         return HttpResponse.badRequest(new MissingParamError('description'))
       }
+      if (await this.findByOrderUseCase.find(userId, testId, order)) {
+        return HttpResponse.conflict(new ExistentParamError('order'))
+      }
 
       const task = await this.createUseCase.create({ userId, testId, order, description, sus, affectGrid })
 
       return HttpResponse.created({ task })
     } catch (error) {
-      return HttpResponse.serverError()
+      return HttpResponse.serverError(error)
     }
   }
 }
