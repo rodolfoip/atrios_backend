@@ -74,13 +74,13 @@ describe('Update task', () => {
     expect(promise).rejects.toThrow(new MissingParamError('testId'))
   })
 
-  test('should return null if no order is provided', () => {
+  test('should return null if no actualOrder is provided', () => {
     const { sut } = makeSut()
     const promise = sut.update({
       userId: 'any_userId',
       testId: 'any_id'
     })
-    expect(promise).rejects.toThrow(new MissingParamError('order'))
+    expect(promise).rejects.toThrow(new MissingParamError('actualOrder'))
   })
 
   test('should return tasks when call update - 1', async () => {
@@ -94,6 +94,7 @@ describe('Update task', () => {
     await sut.update({
       userId: 'any_userId',
       testId: 'any_id',
+      actualOrder: fakeTask.order,
       ...fakeTask
     })
     expect(usabilityTestRepositorySpy.usabilityTest.tasks).toMatchObject([fakeTask])
@@ -109,6 +110,7 @@ describe('Update task', () => {
     await sut.update({
       userId: 'any_userId',
       testId: 'any_id',
+      actualOrder: fakeTask.order,
       ...fakeTask
     })
     expect(usabilityTestRepositorySpy.usabilityTest.tasks).toMatchObject([fakeTask])
@@ -118,7 +120,7 @@ describe('Update task', () => {
     const { sut, usabilityTestRepositorySpy } = makeSut()
     usabilityTestRepositorySpy.usabilityTest.tasks[0].sus = 20
     const fakeTask = {
-      order: 2,
+      actualOrder: 2,
       affectGrid: 45
     }
     await sut.update({
@@ -133,7 +135,7 @@ describe('Update task', () => {
     const sut = new UpdateUseCase()
     const fakeUsabilityTest = {
       testId: 'any_id',
-      order: 1,
+      actualOrder: 1,
       description: 'any_description'
     }
 
@@ -146,7 +148,7 @@ describe('Update task', () => {
     const sut = new UpdateUseCase({ usabilityTestRepository })
     const fakeUsabilityTest = {
       testId: 'any_id',
-      order: 1,
+      actualOrder: 1,
       description: 'any_description'
     }
     const promise = sut.update(fakeUsabilityTest)

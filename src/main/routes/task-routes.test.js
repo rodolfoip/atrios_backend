@@ -70,7 +70,7 @@ describe('Task routes', () => {
       .send({
         userId: fakeUsabilityTest.userId,
         testId: fakeUsabilityTest._id,
-        order: 1,
+        actualOrder: 1,
         description: 'other_description'
       })
       .expect(200)
@@ -80,7 +80,7 @@ describe('Task routes', () => {
     await request(app)
       .put('/api/usability-test/task')
       .send({
-        order: 1,
+        actualOrder: 1,
         description: 'any_description'
       })
       .expect(400)

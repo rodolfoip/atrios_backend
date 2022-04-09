@@ -10,10 +10,11 @@ const makeSut = () => {
 
 const makeUpdateUseCase = () => {
   class UpdateseCaseSpy {
-    async update ({ userId, testId, order, description, sus, affectGrid }) {
+    async update ({ userId, testId, actualOrder, newOrder, description, sus, affectGrid }) {
       this.userId = userId
       this.testId = testId
-      this.order = order
+      this.actualOrder = actualOrder
+      this.newOrder = newOrder
       this.description = description
       this.sus = sus
       this.affectGrid = affectGrid
@@ -76,7 +77,7 @@ describe('Create task router', () => {
     }
     const httpResponse = await sut.route(httpRequest)
     expect(httpResponse.statusCode).toBe(400)
-    expect(httpResponse.body.error).toBe(new MissingParamError('order').message)
+    expect(httpResponse.body.error).toBe(new MissingParamError('actualOrder').message)
   })
 
   test('should return 500 if httpRequest has no body', async () => {
@@ -92,13 +93,13 @@ describe('Create task router', () => {
       body: {
         userId: 'any_userId',
         testId: 'any_id',
-        order: 'any_order',
+        actualOrder: 'any_order',
         description: 'any_description'
       }
     }
     await sut.route(httpRequest)
     expect(updateUseCaseSpy.task.testId).toBe(httpRequest.body.testId)
-    expect(updateUseCaseSpy.task.order).toBe(httpRequest.body.order)
+    expect(updateUseCaseSpy.task.order).toBe(httpRequest.body.actualOrder)
     expect(updateUseCaseSpy.task.description).toBe(httpRequest.body.description)
   })
 
@@ -108,7 +109,7 @@ describe('Create task router', () => {
       body: {
         userId: 'any_userId',
         testId: 'any_id',
-        order: 'any_order',
+        actualOrder: 'any_order',
         description: 'any_description'
       }
     }
@@ -124,7 +125,7 @@ describe('Create task router', () => {
       body: {
         userId: 'any_userId',
         testId: 'any_id',
-        order: 'any_order',
+        actualOrder: 'any_order',
         description: 'any_description'
       }
     }
@@ -140,7 +141,7 @@ describe('Create task router', () => {
       body: {
         userId: 'any_userId',
         testId: 'any_id',
-        order: 'any_order',
+        actualOrder: 'any_order',
         description: 'any_description'
       }
     }
