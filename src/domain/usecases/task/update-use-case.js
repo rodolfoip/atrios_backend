@@ -5,22 +5,28 @@ module.exports = class UpdateUseCase {
     this.usabilityTestRepository = usabilityTestRepository
   }
 
-  async update ({ userId, testId, order, newOrder, description, sus, affectGrid, aborted }) {
+  async update ({ userId, testId, actualOrder, newOrder, description, sus, affectGrid, aborted }) {
     if (!userId) {
       throw new MissingParamError('userId')
     }
     if (!testId) {
       throw new MissingParamError('testId')
     }
-    if (!order) {
-      throw new MissingParamError('order')
+    if (!actualOrder) {
+      throw new MissingParamError('actualOrder')
     }
 
     const usabilityTest = await this.usabilityTestRepository.findById(userId, testId)
     let updatedTask = {}
 
+
     usabilityTest.tasks.map((task) => {
-      if (task.order === order) {
+      if (task.order == newOrder) {
+        task.order = actualOrder
+        return task
+      }
+
+      if (task.order == actualOrder) {
         task.order = newOrder ?? task.order
         task.description = description ?? task.description
         task.sus = sus ?? task.sus
@@ -30,6 +36,9 @@ module.exports = class UpdateUseCase {
       }
       return task
     })
+
+    usabilityTest.tasks.sort((prevTask, nextTask) => prevTask.order - nextTask.order)
+
     await this.usabilityTestRepository.update(usabilityTest)
     return updatedTask
   }

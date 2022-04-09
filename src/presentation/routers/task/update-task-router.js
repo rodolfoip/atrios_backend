@@ -8,22 +8,22 @@ module.exports = class UpdateTaskRouter {
 
   async route (httpRequest) {
     try {
-      const { userId, testId, order, newOrder, description, sus, affectGrid, aborted } = httpRequest.body
+      const { userId, testId, actualOrder, newOrder, description, sus, affectGrid, aborted } = httpRequest.body
       if (!userId) {
         return HttpResponse.badRequest(new MissingParamError('userId'))
       }
       if (!testId) {
         return HttpResponse.badRequest(new MissingParamError('testId'))
       }
-      if (!order) {
-        return HttpResponse.badRequest(new MissingParamError('order'))
+      if (!actualOrder) {
+        return HttpResponse.badRequest(new MissingParamError('actualOrder'))
       }
 
-      const task = await this.updateUseCase.update({ userId, testId, order, newOrder, description, sus, affectGrid, aborted })
+      const task = await this.updateUseCase.update({ userId, testId, actualOrder, newOrder, description, sus, affectGrid, aborted })
 
       return HttpResponse.updated({ task })
     } catch (error) {
-      return HttpResponse.serverError()
+      return HttpResponse.serverError(error)
     }
   }
 }
