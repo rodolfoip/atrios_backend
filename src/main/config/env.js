@@ -1,5 +1,7 @@
+require('dotenv').config();
+
 module.exports = {
-  mongoUrl: process.env.MONGO_URL || 'mongodb://localhost:27017/atrios-node-api',
-  tokenSecret: process.env.TOKEN_SECRET || 'secret',
-  port: process.env.PORT || 5858
+  mongoUrl: process.env.MONGO_URL,
+  tokenSecret: process.env.TOKEN_SECRET,
+  port: process.env.PORT
 }
