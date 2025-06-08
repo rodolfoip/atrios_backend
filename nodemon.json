@@ -1,0 +1,10 @@
+{
+  "ignore": [
+    "node_modules/*",
+    "coverage/*",
+    "*.test.js",
+    "*.spec.js"
+  ],
+  "watch": ["src/"],
+  "ext": "js,json"
+} 
