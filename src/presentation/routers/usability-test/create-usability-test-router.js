@@ -16,9 +16,6 @@ module.exports = class CreateUsabilityTestRouter {
       if (!accessCode) {
         return HttpResponse.badRequest(new MissingParamError('accessCode'))
       }
-      if (!prototypeLink) {
-        return HttpResponse.badRequest(new MissingParamError('prototypeLink'))
-      }
       if (!externalLink) {
         return HttpResponse.badRequest(new MissingParamError('externalLink'))
       }

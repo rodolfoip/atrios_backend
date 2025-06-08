@@ -13,9 +13,6 @@ module.exports = class CreteUseCase {
     if (!accessCode) {
       throw new MissingParamError('accessCode')
     }
-    if (!prototypeLink) {
-      throw new MissingParamError('prototypeLink')
-    }
     if (!externalLink) {
       throw new MissingParamError('externalLink')
     }
